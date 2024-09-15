@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">WinDiChat</string>
+    <string name="enter_code">Введите код</string>
+    <string name="sent_code">Отправили код на номер</string>
+    <string name="sent_again">Запросить код повторно</string>
+    <string name="enter_phone">Введите номер телефона</string>
+    <string name="we_will_sent_code">Мы вышлем код подтверждения</string>
+    <string name="on_your_number">на указанный номер</string>
+    <string name="resume">Продолжить</string>
 </resources>
