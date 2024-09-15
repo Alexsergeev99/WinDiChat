@@ -21,4 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "WinDiChat"
 include(":app")
- 
+include(":data")
+include(":presentation")
+include(":domain")
