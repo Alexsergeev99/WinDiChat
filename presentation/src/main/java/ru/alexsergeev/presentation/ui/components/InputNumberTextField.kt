@@ -92,14 +92,14 @@ internal fun InputNumberTextField(
                     fontFamily = FontFamily(Font(R.font.roboto_medium)),
                     fontWeight = FontWeight.SemiBold,
                     textAlign = TextAlign.Left,
-                    color = WinDiTheme.colors.activeComponent
+                    color = Color.Black
                 ),
-                cursorBrush = SolidColor(WinDiTheme.colors.activeComponent),
+                cursorBrush = SolidColor(Color.Black),
                 decorationBox = { innerTextField ->
                     if (number.value.isEmpty()) {
                         Text(
                             text = hint,
-                            color = WinDiTheme.colors.disabledComponent,
+                            color = WinDiTheme.colors.weakColor,
                             style = WinDiTheme.typography.subheading1
                         )
                     }

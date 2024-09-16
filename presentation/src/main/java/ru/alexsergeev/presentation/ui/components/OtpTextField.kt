@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.KeyboardType
@@ -84,7 +85,7 @@ private fun CharView(
                 text = char,
                 modifier = Modifier,
                 style = WinDiTheme.typography.heading1,
-                color = WinDiTheme.colors.activeComponent,
+                color = Color.Black,
                 textAlign = TextAlign.Center
             )
         }
@@ -99,7 +100,7 @@ private fun CharView(
             Icon(
                 painter = painterResource(id = R.drawable.otp_icon),
                 contentDescription = "otp_icon",
-                tint = WinDiTheme.colors.disabledComponent
+                tint = WinDiTheme.colors.weakColor
             )
         }
     }

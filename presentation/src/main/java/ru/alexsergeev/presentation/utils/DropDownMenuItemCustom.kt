@@ -26,7 +26,7 @@ val DropdownMenuItemDefaultMaxWidth = 280.dp
 val DropdownMenuItemDefaultMinHeight = 48.dp
 
 @Composable
-fun DropdownMenuItemCustom(
+internal fun DropdownMenuItemCustom(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,

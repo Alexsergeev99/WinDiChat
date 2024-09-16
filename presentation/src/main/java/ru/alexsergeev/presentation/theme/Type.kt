@@ -33,35 +33,35 @@ val lineHeightStyle = LineHeightStyle(
 val TypographyInstance = Typography(
     heading1 = TextStyle(
         fontFamily = robotoFontFamily,
-        fontWeight = FontWeight.SemiBold,
+        fontWeight = FontWeight.Bold,
         fontSize = 20.sp,
         lineHeight = 24.sp,
         lineHeightStyle = lineHeightStyle
     ),
     heading2 = TextStyle(
         fontFamily = robotoFontFamily,
-        fontWeight = FontWeight(400),
+        fontWeight = FontWeight.SemiBold,
         fontSize = 16.sp,
         lineHeight = 18.sp,
         lineHeightStyle = lineHeightStyle
     ),
     subheading1 = TextStyle(
         fontFamily = robotoFontFamily,
-        fontWeight = FontWeight(400),
+        fontWeight = FontWeight.SemiBold,
         fontSize = 14.sp,
         lineHeight = 16.sp,
         lineHeightStyle = lineHeightStyle
     ),
     subheading2 = TextStyle(
         fontFamily = robotoFontFamily,
-        fontWeight = FontWeight(500),
+        fontWeight = FontWeight.SemiBold,
         fontSize = 20.sp,
         lineHeight = 24.sp,
         lineHeightStyle = lineHeightStyle
     ),
     metadata1 = TextStyle(
         fontFamily = robotoFontFamily,
-        fontWeight = FontWeight(400),
+        fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
         lineHeight = 20.sp,
         lineHeightStyle = lineHeightStyle

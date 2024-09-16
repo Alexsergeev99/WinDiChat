@@ -24,7 +24,7 @@ import ru.alexsergeev.presentation.utils.DropdownMenuItemCustom
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InputCodeCountryField(onTextChange: (String) -> Unit = {}) {
+internal fun InputCodeCountryField(onTextChange: (String) -> Unit = {}) {
 
     var expanded by remember { mutableStateOf(false) }
 
@@ -68,7 +68,7 @@ fun InputCodeCountryField(onTextChange: (String) -> Unit = {}) {
                 modifier = Modifier.padding(start = 4.dp),
                 text = selectedText.value,
                 style = WinDiTheme.typography.subheading1,
-                color = WinDiTheme.colors.disabledComponent
+                color = WinDiTheme.colors.weakColor
             )
             ExposedDropdownMenu(
                 expanded = expanded,
@@ -96,7 +96,7 @@ fun InputCodeCountryField(onTextChange: (String) -> Unit = {}) {
                             modifier = Modifier.padding(start = 4.dp),
                             text = item.code,
                             style = WinDiTheme.typography.subheading1,
-                            color = WinDiTheme.colors.disabledComponent
+                            color = WinDiTheme.colors.weakColor
                         )
                     }
                 }

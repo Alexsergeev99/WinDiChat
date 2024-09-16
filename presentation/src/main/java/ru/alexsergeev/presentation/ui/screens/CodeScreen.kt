@@ -16,6 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -61,21 +62,21 @@ internal fun CodeScreen(
                 .padding(vertical = 4.dp),
             text = stringResource(id = R.string.enter_code),
             style = WinDiTheme.typography.heading2,
-            color = WinDiTheme.colors.activeComponent
+            color = Color.Black
         )
         Text(
             modifier = Modifier
                 .padding(top = 2.dp),
             text = stringResource(id = R.string.sent_code),
             style = WinDiTheme.typography.subheading1,
-            color = WinDiTheme.colors.activeComponent,
+            color = Color.Black,
         )
         Text(
             modifier = Modifier
                 .padding(bottom = 4.dp),
             text = " ",
             style = WinDiTheme.typography.subheading1,
-            color = WinDiTheme.colors.activeComponent,
+            color = Color.Black,
         )
         OtpTextField(
             navController = navController,
