@@ -18,16 +18,19 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import io.getstream.chat.android.ui.channel.list.viewmodel.ChannelListViewModel
 import io.getstream.chat.android.ui.channel.list.viewmodel.factory.ChannelListViewModelFactory
+import org.koin.androidx.compose.koinViewModel
 import ru.alexsergeev.presentation.navigation.WinDiTopBar
 import ru.alexsergeev.presentation.ui.components.ChannelListItem
 import ru.alexsergeev.presentation.utils.mock.chats
+import ru.alexsergeev.presentation.viewmodel.MainScreenViewModel
 
 @Composable
 internal fun MainScreen(
     navController: NavController,
     channelListViewModel: ChannelListViewModel = viewModel(
         factory = ChannelListViewModelFactory()
-    )
+    ),
+    mainScreenViewModel: MainScreenViewModel = koinViewModel()
 ) {
     val state by channelListViewModel.state.observeAsState()
     val channelState = state

@@ -7,11 +7,13 @@ import ru.alexsergeev.presentation.utils.mappers.DomainUserToUiUserMapper
 import ru.alexsergeev.presentation.utils.mappers.UiUserToDomainUserMapper
 import ru.alexsergeev.presentation.viewmodel.CodeScreenViewModel
 import ru.alexsergeev.presentation.viewmodel.InputPhoneNumberViewModel
+import ru.alexsergeev.presentation.viewmodel.MainScreenViewModel
 
 val presentationModule = module {
 
     viewModelOf(::InputPhoneNumberViewModel)
     viewModelOf(::CodeScreenViewModel)
+    viewModelOf(::MainScreenViewModel)
 
     singleOf(::DomainUserToUiUserMapper)
     singleOf(::UiUserToDomainUserMapper)
