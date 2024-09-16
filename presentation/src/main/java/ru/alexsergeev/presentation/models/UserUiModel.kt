@@ -1,6 +1,7 @@
 package ru.alexsergeev.presentation.models
 
 internal data class UserUiModel(
+    val id: Int,
     val name: FullName,
     val phone: Phone,
     val avatar: String,

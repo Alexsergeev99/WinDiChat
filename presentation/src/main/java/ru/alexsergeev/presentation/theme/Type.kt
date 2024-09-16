@@ -50,8 +50,8 @@ val TypographyInstance = Typography(
     subheading1 = TextStyle(
         fontFamily = robotoFontFamily,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 14.sp,
-        lineHeight = 16.sp,
+        fontSize = 18.sp,
+        lineHeight = 30.sp,
         lineHeightStyle = lineHeightStyle
     ),
     subheading2 = TextStyle(

@@ -85,12 +85,13 @@ internal fun CodeScreen(
             color = Color.Black,
         )
         OtpTextField(
-            navController = navController,
             otpText = codeValue.value,
             onOtpTextChange = { value, _ ->
                 codeValue.value = value
                 codeScreenViewModel.validateCodeFlow(codeValue.value.toInt())
-                if(codeScreenViewModel.validateCode().value) { }
+                if (codeScreenViewModel.validateCode().value) {
+                    navController.navigate("main_screen")
+                }
             },
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)

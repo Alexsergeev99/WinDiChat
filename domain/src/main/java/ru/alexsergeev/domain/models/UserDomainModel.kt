@@ -1,6 +1,7 @@
 package ru.alexsergeev.domain.models
 
 data class UserDomainModel(
+    val id: Int,
     val name: FullName,
     val phone: Phone,
     val avatar: String,

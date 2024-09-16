@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle.runtime.compose.android)
+    implementation(libs.androidx.runtime.livedata)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -64,5 +65,9 @@ dependencies {
     implementation(libs.koin.androidx.navigation)
     implementation(libs.lottie.compose)
     implementation(libs.material.v140)
+    implementation(libs.coil.compose)
+    implementation(libs.stream.chat.android.ui.components)
+    implementation(libs.library)
+    implementation(libs.androidx.work.runtime)
     implementation(project(":domain"))
 }

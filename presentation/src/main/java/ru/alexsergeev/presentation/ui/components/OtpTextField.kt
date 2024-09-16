@@ -33,7 +33,6 @@ fun OtpTextField(
     otpText: String,
     otpCount: Int = 6,
     onOtpTextChange: (String, Boolean) -> Unit,
-    navController: NavController = rememberNavController(),
 ) {
     LaunchedEffect(Unit) {
         if (otpText.length > otpCount) {

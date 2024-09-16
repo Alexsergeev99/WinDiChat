@@ -25,6 +25,7 @@ internal class CodeScreenViewModel(
 
     private val userDataMutable = MutableStateFlow(
         UserUiModel(
+            id = 1,
             name = FullName(
                 firstName = "",
                 secondName = ""

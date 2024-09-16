@@ -6,6 +6,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import ru.alexsergeev.presentation.ui.screens.CodeScreen
 import ru.alexsergeev.presentation.ui.screens.InputPhoneNumberScreen
+import ru.alexsergeev.presentation.ui.screens.MainScreen
+import ru.alexsergeev.presentation.ui.screens.MessageListScreen
 import ru.alexsergeev.presentation.ui.screens.SplashScreen
 
 @Composable
@@ -23,6 +25,15 @@ fun Navigation() {
         }
         composable("code_screen") {
             CodeScreen(navController = navController)
+        }
+        composable("main_screen") {
+            MainScreen(navController = navController)
+        }
+        composable("channel_item/{id}") {
+            MessageListScreen(
+                navController = navController,
+                cid = it.arguments?.getString("id")!!
+            )
         }
     }
 }
