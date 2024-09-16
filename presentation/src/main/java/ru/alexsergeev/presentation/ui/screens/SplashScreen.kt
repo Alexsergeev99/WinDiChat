@@ -55,7 +55,7 @@ fun SplashScreen(navController: NavController) {
             modifier = Modifier
                 .size(400.dp)
                 .background(color = Color.White),
-            anim = R.raw.splash
+            anim = R.raw.chat
         )
         Spacer(modifier = Modifier.height(25.dp))
         Text(
@@ -64,7 +64,7 @@ fun SplashScreen(navController: NavController) {
                 .align(Alignment.CenterHorizontally)
                 .alpha(alpha.value),
             color = WinDiTheme.colors.activeComponent,
-            style = WinDiTheme.typography.heading2
+            style = WinDiTheme.typography.heading1
         )
     }
 }

@@ -67,7 +67,7 @@ internal fun InputCodeCountryField(onTextChange: (String) -> Unit = {}) {
             Text(
                 modifier = Modifier.padding(start = 4.dp),
                 text = selectedText.value,
-                style = WinDiTheme.typography.subheading1,
+                style = WinDiTheme.typography.body1,
                 color = WinDiTheme.colors.weakColor
             )
             ExposedDropdownMenu(
@@ -95,7 +95,7 @@ internal fun InputCodeCountryField(onTextChange: (String) -> Unit = {}) {
                         Text(
                             modifier = Modifier.padding(start = 4.dp),
                             text = item.code,
-                            style = WinDiTheme.typography.subheading1,
+                            style = WinDiTheme.typography.body1,
                             color = WinDiTheme.colors.weakColor
                         )
                     }

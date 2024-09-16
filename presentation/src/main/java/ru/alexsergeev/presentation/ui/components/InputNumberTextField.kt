@@ -100,7 +100,7 @@ internal fun InputNumberTextField(
                         Text(
                             text = hint,
                             color = WinDiTheme.colors.weakColor,
-                            style = WinDiTheme.typography.subheading1
+                            style = WinDiTheme.typography.body1
                         )
                     }
                     innerTextField()

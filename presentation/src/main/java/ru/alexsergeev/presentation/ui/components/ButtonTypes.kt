@@ -119,7 +119,7 @@ internal fun ButtonTypes(
                 ) {
                     Text(
                         text = text,
-                        color = Color.White,
+                        color = WinDiTheme.colors.activeComponent,
                         style = WinDiTheme.typography.subheading2
                     )
                 }
@@ -137,7 +137,7 @@ internal fun ButtonTypes(
                 ) {
                     Text(
                         text = text,
-                        color = Color.White,
+                        color = WinDiTheme.colors.activeComponent,
                         style = WinDiTheme.typography.subheading2
                     )
                 }

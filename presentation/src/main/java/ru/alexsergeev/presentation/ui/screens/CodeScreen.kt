@@ -68,14 +68,14 @@ internal fun CodeScreen(
             modifier = Modifier
                 .padding(top = 2.dp),
             text = stringResource(id = R.string.sent_code),
-            style = WinDiTheme.typography.subheading1,
+            style = WinDiTheme.typography.body2,
             color = Color.Black,
         )
         Text(
             modifier = Modifier
                 .padding(bottom = 4.dp),
-            text = " ",
-            style = WinDiTheme.typography.subheading1,
+            text = "",
+            style = WinDiTheme.typography.body2,
             color = Color.Black,
         )
         OtpTextField(

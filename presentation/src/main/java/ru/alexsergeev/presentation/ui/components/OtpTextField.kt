@@ -31,7 +31,7 @@ import ru.alexsergeev.presentation.theme.WinDiTheme
 fun OtpTextField(
     modifier: Modifier = Modifier,
     otpText: String,
-    otpCount: Int = 4,
+    otpCount: Int = 6,
     onOtpTextChange: (String, Boolean) -> Unit,
     navController: NavController = rememberNavController(),
 ) {
@@ -51,13 +51,13 @@ fun OtpTextField(
         },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
         decorationBox = {
-            Row(modifier = Modifier.padding(8.dp), horizontalArrangement = Arrangement.Center) {
+            Row(modifier = Modifier.padding(4.dp), horizontalArrangement = Arrangement.Center) {
                 repeat(otpCount) { index ->
                     CharView(
                         index = index,
                         text = otpText,
                     )
-                    Spacer(modifier = Modifier.width(8.dp))
+                    Spacer(modifier = Modifier.width(4.dp))
                 }
             }
         }
@@ -77,8 +77,8 @@ private fun CharView(
         Box(
             modifier = Modifier
                 .padding(16.dp)
-                .width(32.dp)
-                .height(40.dp),
+                .width(24.dp)
+                .height(32.dp),
             contentAlignment = Alignment.Center
         ) {
             Text(
@@ -100,7 +100,7 @@ private fun CharView(
             Icon(
                 painter = painterResource(id = R.drawable.otp_icon),
                 contentDescription = "otp_icon",
-                tint = WinDiTheme.colors.weakColor
+                tint = WinDiTheme.colors.disabledText
             )
         }
     }

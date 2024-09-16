@@ -67,21 +67,21 @@ internal fun InputPhoneNumberScreen(
             modifier = Modifier
                 .padding(vertical = 4.dp),
             text = stringResource(id = R.string.enter_phone),
-            style = WinDiTheme.typography.heading1,
+            style = WinDiTheme.typography.heading2,
             color = Color.Black
         )
         Text(
             modifier = Modifier
                 .padding(top = 2.dp),
             text = stringResource(id = R.string.we_will_sent_code),
-            style = WinDiTheme.typography.heading2,
+            style = WinDiTheme.typography.body2,
             color = Color.Black,
         )
         Text(
             modifier = Modifier
                 .padding(bottom = 4.dp),
             text = stringResource(id = R.string.on_your_number),
-            style = WinDiTheme.typography.heading2,
+            style = WinDiTheme.typography.body2,
             color = Color.Black,
         )
         Row(
