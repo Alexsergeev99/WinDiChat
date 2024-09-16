@@ -7,4 +7,7 @@
     <string name="we_will_sent_code">Мы вышлем код подтверждения</string>
     <string name="on_your_number">на указанный номер</string>
     <string name="resume">Продолжить</string>
+    <string name="something_went_wrong">Произошла какая-то ошибка :(</string>
+    <string name="will_try_again">Попробуем снова?</string>
+    <string name="try_else">ПОПРОБОВАТЬ</string>
 </resources>

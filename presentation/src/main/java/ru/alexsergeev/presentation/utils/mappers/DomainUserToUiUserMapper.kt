@@ -1,6 +1,8 @@
 package ru.alexsergeev.presentation.utils.mappers
 
+import ru.alexsergeev.domain.models.ChatDomainModel
 import ru.alexsergeev.domain.models.UserDomainModel
+import ru.alexsergeev.presentation.models.ChatUiModel
 import ru.alexsergeev.presentation.models.FullName
 import ru.alexsergeev.presentation.models.Phone
 import ru.alexsergeev.presentation.models.UserUiModel

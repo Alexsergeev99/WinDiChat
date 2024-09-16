@@ -1,6 +1,6 @@
-package ru.alexsergeev.presentation.models
+package ru.alexsergeev.domain.models
 
-data class ChatUiModel(
+data class ChatDomainModel(
     val id: Long,
     val firstUserId: Int,
     val secondUserId: Int,

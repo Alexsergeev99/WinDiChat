@@ -16,6 +16,7 @@ import io.getstream.chat.android.ui.ChatUI.style
 import org.koin.androidx.compose.koinViewModel
 import ru.alexsergeev.presentation.models.ChatUiModel
 import ru.alexsergeev.presentation.theme.WinDiTheme
+import ru.alexsergeev.presentation.utils.mock.messages
 import ru.alexsergeev.presentation.viewmodel.MainScreenViewModel
 
 @Composable
@@ -32,14 +33,14 @@ internal fun ChannelListItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         UserAvatarSmall("https://www.1zoom.me/big2/62/199578-yana.jpg")
-        Column(modifier = Modifier.padding(start = 8.dp)) { // 3
+        Column(modifier = Modifier.padding(start = 8.dp)) {
             Text(
                 text = "${mainScreenViewModel.getUserById(chat.secondUserId).collectAsStateWithLifecycle().value.name.firstName} " +
                         mainScreenViewModel.getUserById(chat.secondUserId).collectAsStateWithLifecycle().value.name.secondName,
                 style = WinDiTheme.typography.subheading2,
             )
 
-            val lastMessageText = chat.messagesId.last().text
+            val lastMessageText = messages[chat.messagesId.last()-1].text
             Text(
                 text = lastMessageText,
                 maxLines = 1,

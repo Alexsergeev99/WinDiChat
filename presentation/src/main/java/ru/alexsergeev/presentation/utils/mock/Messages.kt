@@ -20,11 +20,3 @@ val messages = listOf(
     MessageUiModel(id=14, senderId=1, recipientId=2, text="Сообщение 14", date="2023-11-09 16:31:11"),
     MessageUiModel(id=15, senderId=2, recipientId=1, text="Сообщение 15", date="2023-11-09 16:30:11")
 )
-
-val chats = listOf(
-    ChatUiModel(id = 1, 1, 2, messages),
-    ChatUiModel(id = 1, 1, 2, messages),
-    ChatUiModel(id = 1, 1, 2, messages),
-    ChatUiModel(id = 1, 1, 2, messages),
-    ChatUiModel(id = 1, 1, 2, messages),
-)
