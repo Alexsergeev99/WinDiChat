@@ -29,7 +29,7 @@ internal class UserProfileRepositoryImpl : UserProfileRepository {
     }
 
     override fun verifyCode(code: Int): Flow<Boolean> = flow {
-        val trueCode = code == 6666
+        val trueCode = code == 133337
         emit(trueCode)
     }
 }
