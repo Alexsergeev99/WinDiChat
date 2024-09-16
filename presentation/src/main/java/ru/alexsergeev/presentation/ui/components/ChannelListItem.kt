@@ -7,12 +7,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import io.getstream.chat.android.ui.ChatUI.style
 import org.koin.androidx.compose.koinViewModel
 import ru.alexsergeev.presentation.models.ChatUiModel
 import ru.alexsergeev.presentation.theme.WinDiTheme
@@ -22,9 +22,13 @@ import ru.alexsergeev.presentation.viewmodel.MainScreenViewModel
 @Composable
 internal fun ChannelListItem(
     chat: ChatUiModel,
+    userId: Int = 1,
     mainScreenViewModel: MainScreenViewModel = koinViewModel(),
     onClick: () -> Unit = {}
 ) {
+
+    val user by mainScreenViewModel.getUserById(userId).collectAsStateWithLifecycle()
+
     Row(
         modifier = Modifier
             .clickable { onClick() }
@@ -32,15 +36,19 @@ internal fun ChannelListItem(
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        UserAvatarSmall("https://www.1zoom.me/big2/62/199578-yana.jpg")
+        UserAvatarSmall(user.avatar)
         Column(modifier = Modifier.padding(start = 8.dp)) {
             Text(
-                text = "${mainScreenViewModel.getUserById(chat.secondUserId).collectAsStateWithLifecycle().value.name.firstName} " +
-                        mainScreenViewModel.getUserById(chat.secondUserId).collectAsStateWithLifecycle().value.name.secondName,
+                text = "${
+                    mainScreenViewModel.getUserById(chat.secondUserId)
+                        .collectAsStateWithLifecycle().value.name.firstName
+                } " +
+                        mainScreenViewModel.getUserById(chat.secondUserId)
+                            .collectAsStateWithLifecycle().value.name.secondName,
                 style = WinDiTheme.typography.subheading2,
             )
 
-            val lastMessageText = messages[chat.messagesId.last()-1].text
+            val lastMessageText = messages[chat.messagesId.last() - 1].text
             Text(
                 text = lastMessageText,
                 maxLines = 1,

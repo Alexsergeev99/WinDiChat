@@ -49,7 +49,7 @@ internal fun MainScreen(
                     LazyColumn(Modifier.fillMaxSize()) {
                         current.chats.forEach {
                             item {
-                                ChannelListItem(it) {
+                                ChannelListItem(chat = it, userId = it.secondUserId) {
                                     navController.navigate("channel_item/${it.secondUserId}")
                                 }
                                 HorizontalDivider()
@@ -59,7 +59,7 @@ internal fun MainScreen(
                 }
 
                 is MainScreenState.Error -> {
-                    ErrorScreen{
+                    ErrorScreen {
 
                     }
                 }
