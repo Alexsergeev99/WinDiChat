@@ -41,7 +41,7 @@ internal fun UserProfileScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp),
+            .padding(16.dp),
         contentAlignment = Alignment.TopCenter
     ) {
         WinDiTopBar(
@@ -52,8 +52,7 @@ internal fun UserProfileScreen(
         )
         Column(
             modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(vertical = 8.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
@@ -66,23 +65,37 @@ internal fun UserProfileScreen(
             UserAvatar(
                 image = user.avatar,
             )
+            Spacer(
+                modifier = Modifier
+                    .height(48.dp)
+                    .fillMaxWidth()
+            )
             Text(
                 text = "${user.name.firstName} ${user.name.secondName}".ifBlank { "Новый пользователь" },
                 color = Color.Black,
                 style = WinDiTheme.typography.heading2
             )
             Text(
+                modifier = Modifier.align(Alignment.Start),
                 text = "@${user.username}",
                 color = Color.Black,
                 style = WinDiTheme.typography.subheading1
             )
             Text(
+                modifier = Modifier.align(Alignment.Start),
                 text = "${user.phone.countryCode} ${user.phone.basicNumber}",
                 color = Color.Black,
                 style = WinDiTheme.typography.subheading1
             )
             Text(
+                modifier = Modifier.align(Alignment.Start),
                 text = user.city,
+                color = Color.Black,
+                style = WinDiTheme.typography.subheading1
+            )
+            Text(
+                modifier = Modifier.align(Alignment.Start),
+                text = user.info,
                 color = Color.Black,
                 style = WinDiTheme.typography.subheading1
             )

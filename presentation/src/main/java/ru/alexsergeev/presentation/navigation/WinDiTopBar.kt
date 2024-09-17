@@ -46,7 +46,7 @@ internal fun WinDiTopBar(
                     .padding(top = 6.dp, bottom = 6.dp, end = 6.dp)
                     .clickable { goToBackScreen() },
                 painter = painterResource(id = R.drawable.navigate_back),
-                tint = Color.Black,
+                tint = WinDiTheme.colors.activeComponent,
                 contentDescription = "back"
             )
         }
@@ -63,7 +63,7 @@ internal fun WinDiTopBar(
                     .padding(vertical = 6.dp)
                     .clickable { goToEditScreen() },
                 painter = painterResource(id = R.drawable.edit),
-                tint = Color.Black,
+                tint = WinDiTheme.colors.activeComponent,
                 contentDescription = "edit"
             )
         }
@@ -73,7 +73,7 @@ internal fun WinDiTopBar(
                     .padding(vertical = 6.dp)
                     .clickable { goToBackScreen() },
                 painter = painterResource(id = R.drawable.check_mark),
-                tint = Color.Black,
+                tint = WinDiTheme.colors.activeComponent,
                 contentDescription = "save"
             )
         }
@@ -82,6 +82,7 @@ internal fun WinDiTopBar(
                 modifier = Modifier
                     .padding(vertical = 6.dp)
                     .clickable { },
+                tint = WinDiTheme.colors.activeComponent,
                 painter = painterResource(id = R.drawable.add),
                 contentDescription = "add",
             )
@@ -91,6 +92,7 @@ internal fun WinDiTopBar(
                 modifier = Modifier
                     .padding(top = 6.dp, bottom = 6.dp, end = 6.dp)
                     .clickable { },
+                tint = WinDiTheme.colors.activeComponent,
                 painter = painterResource(id = R.drawable.check_mark),
                 contentDescription = "check_mark"
             )
@@ -101,7 +103,7 @@ internal fun WinDiTopBar(
                     .padding(top = 6.dp, bottom = 6.dp, end = 6.dp)
                     .clickable { },
                 painter = painterResource(id = R.drawable.share),
-                tint = Color.Black,
+                tint = WinDiTheme.colors.activeComponent,
                 contentDescription = "share"
             )
         }
@@ -112,7 +114,7 @@ internal fun WinDiTopBar(
                     .size(24.dp)
                     .clickable { goToProfileScreen() },
                 painter = painterResource(id = R.drawable.avatar_icon),
-                tint = Color.Black,
+                tint = WinDiTheme.colors.activeComponent,
                 contentDescription = "avatar_icon"
             )
         }

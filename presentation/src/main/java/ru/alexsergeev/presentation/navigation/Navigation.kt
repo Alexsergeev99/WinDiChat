@@ -9,6 +9,7 @@ import ru.alexsergeev.presentation.ui.screens.EditProfileScreen
 import ru.alexsergeev.presentation.ui.screens.InputPhoneNumberScreen
 import ru.alexsergeev.presentation.ui.screens.MainScreen
 import ru.alexsergeev.presentation.ui.screens.MessageListScreen
+import ru.alexsergeev.presentation.ui.screens.RegistrationScreen
 import ru.alexsergeev.presentation.ui.screens.RemoveProfileScreen
 import ru.alexsergeev.presentation.ui.screens.SplashScreen
 import ru.alexsergeev.presentation.ui.screens.UserProfileScreen
@@ -46,6 +47,9 @@ fun Navigation() {
         }
         composable("remove_profile_screen") {
             RemoveProfileScreen(navController = navController)
+        }
+        composable("registration_screen") {
+            RegistrationScreen(navController = navController)
         }
     }
 }

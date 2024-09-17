@@ -10,4 +10,5 @@
     <string name="something_went_wrong">Произошла какая-то ошибка :(</string>
     <string name="will_try_again">Попробуем снова?</string>
     <string name="try_else">ПОПРОБОВАТЬ</string>
+    <string name="mock_user_avatar">https://steamuserimages-a.akamaihd.net/ugc/766100111179387299/35FCEB4C8D8D88F171F29F46F6B2DFD879EB2112/</string>
 </resources>
