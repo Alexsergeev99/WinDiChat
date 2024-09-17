@@ -1,5 +1,7 @@
 package ru.alexsergeev.presentation.ui.components
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardActions
@@ -17,11 +19,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.getstream.sdk.chat.viewmodel.MessageInputViewModel
-import io.getstream.chat.android.ui.message.list.viewmodel.factory.MessageListViewModelFactory
 import org.koin.androidx.compose.koinViewModel
+import ru.alexsergeev.presentation.models.MessageUiModel
+import ru.alexsergeev.presentation.utils.mock.messages
 import ru.alexsergeev.presentation.viewmodel.MessagesListViewModel
+import java.time.LocalDate
 
 @Composable
 internal fun MessageInput(
@@ -29,8 +31,17 @@ internal fun MessageInput(
 ) {
     var inputValue by remember { mutableStateOf("") }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun sendMessage() {
-//        messagesListViewModel.sendMessage(inputValue)
+        messagesListViewModel.sendMessage(
+            MessageUiModel(
+                id = messages.last().id + 1,
+                senderId = 1,
+                recipientId = 4,
+                text = inputValue,
+                date = LocalDate.now().toString()
+            )
+        )
         inputValue = ""
     }
 

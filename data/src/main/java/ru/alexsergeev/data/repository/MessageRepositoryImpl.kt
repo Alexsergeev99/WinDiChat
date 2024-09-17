@@ -16,9 +16,9 @@ internal class MessageRepositoryImpl : MessageRepository {
     @OptIn(ExperimentalCoroutinesApi::class)
     private val cacheMessages = cacheMessagesFlow.flatMapLatest {
         flow {
-            if (cacheMessagesFlow.value.isEmpty()) {
-                fetchMessages()
-            }
+//            if (cacheMessagesFlow.value.isEmpty()) {
+            fetchMessages()
+//            }
             emit(it)
         }
     }
@@ -27,7 +27,14 @@ internal class MessageRepositoryImpl : MessageRepository {
         cacheMessagesFlow.value = messages
     }
 
-    override fun getAllMessages(): Flow<List<MessageDomainModel>> = flow {
+    override fun getAllMessages(): Flow<List<MessageDomainModel>> =
+//        cacheMessages
+        flow {
         emit(messages)
+    }
+
+    override suspend fun sendMessage(message: MessageDomainModel) {
+        messages.add(message)
+        fetchMessages()
     }
 }

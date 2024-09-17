@@ -1,7 +1,7 @@
 package ru.alexsergeev.presentation.ui.screens
 
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -10,9 +10,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -29,6 +30,7 @@ import ru.alexsergeev.presentation.ui.components.AvatarWithEdit
 import ru.alexsergeev.presentation.ui.components.EditProfileButtonChanger
 import ru.alexsergeev.presentation.ui.components.Search
 import ru.alexsergeev.presentation.ui.components.TextArea
+import ru.alexsergeev.presentation.utils.rememberImeState
 import ru.alexsergeev.presentation.viewmodel.UserProfileViewModel
 
 @Composable
@@ -43,6 +45,14 @@ internal fun RegistrationScreen(
     val startedAvatar = stringResource(id = R.string.mock_user_avatar)
     val changedAvatar = "https://www.1zoom.me/big2/62/199578-yana.jpg"
 
+    val imeState = rememberImeState()
+    val scrollState = rememberScrollState()
+
+    LaunchedEffect(key1 = imeState.value) {
+        if (imeState.value) {
+            scrollState.animateScrollTo(scrollState.maxValue, tween(300))
+        }
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -64,7 +74,8 @@ internal fun RegistrationScreen(
             Column(
                 modifier = Modifier
                     .fillMaxHeight()
-                    .padding(vertical = 8.dp),
+                    .padding(vertical = 8.dp)
+                    .verticalScroll(scrollState),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {

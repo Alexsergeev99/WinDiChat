@@ -1,5 +1,6 @@
 package ru.alexsergeev.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
@@ -10,24 +11,30 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.alexsergeev.domain.usecases.interfaces.GetAllChatsUseCase
+import ru.alexsergeev.domain.usecases.interfaces.GetAllMessagesUseCase
 import ru.alexsergeev.domain.usecases.interfaces.GetAllUsersUseCase
 import ru.alexsergeev.domain.usecases.interfaces.GetUserByIdUseCase
 import ru.alexsergeev.presentation.models.ChatUiModel
 import ru.alexsergeev.presentation.models.FullName
+import ru.alexsergeev.presentation.models.MessageUiModel
 import ru.alexsergeev.presentation.models.Phone
 import ru.alexsergeev.presentation.models.UserUiModel
 import ru.alexsergeev.presentation.states.MainScreenState
+import ru.alexsergeev.presentation.states.MessagesListState
 import ru.alexsergeev.presentation.utils.mappers.DomainChatToUiChatMapper
+import ru.alexsergeev.presentation.utils.mappers.DomainMessageToUiMessageMapper
 import ru.alexsergeev.presentation.utils.mappers.DomainUserToUiUserMapper
 import java.util.Locale
 
 internal class MainScreenViewModel(
     private val getAllUsersUseCase: GetAllUsersUseCase,
     private val getAllChatsUseCase: GetAllChatsUseCase,
+    private val getAllMessagesUseCase: GetAllMessagesUseCase,
     private val getUserByIdUseCase: GetUserByIdUseCase,
     private val domainUserToUiUserMapper: DomainUserToUiUserMapper,
     private val domainChatToUiChatMapper: DomainChatToUiChatMapper,
-) : ViewModel() {
+    private val domainMessageToUiMessageMapper: DomainMessageToUiMessageMapper,
+    ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<MainScreenState>(MainScreenState.Loading)
     val uiState = _uiState.asStateFlow()
@@ -54,6 +61,9 @@ internal class MainScreenViewModel(
     private val chatsMutable = MutableStateFlow<MutableList<ChatUiModel>>(mutableListOf())
     private val chats: StateFlow<List<ChatUiModel>> = chatsMutable
 
+    private val messagesMutable = MutableStateFlow<MutableList<MessageUiModel>>(mutableListOf())
+    private val messages: StateFlow<List<MessageUiModel>> = messagesMutable
+
     private val filteredChatsMutable = MutableStateFlow<MutableList<ChatUiModel>>(mutableListOf())
     private val filteredChats: StateFlow<List<ChatUiModel>> = filteredChatsMutable
 
@@ -64,6 +74,7 @@ internal class MainScreenViewModel(
         getAllUsersFlow()
         getAllChatsFlow()
         setFilteredChatsList()
+        getAllMessagesFlow()
     }
 
     private fun getAllUsersFlow() {
@@ -83,8 +94,6 @@ internal class MainScreenViewModel(
 
     private fun getAllChatsFlow() {
         viewModelScope.launch {
-            _uiState.value = MainScreenState.Loading
-            delay(1000)
             try {
                 val chatsFlow = getAllChatsUseCase.invoke()
                 chatsFlow.collect { chats ->
@@ -92,13 +101,8 @@ internal class MainScreenViewModel(
                         chatsMutable.value.add(domainChatToUiChatMapper.map(chat))
                     }
                 }
-                if (chats.value.isEmpty()) {
-                    _uiState.value = MainScreenState.Error("Exception")
-                } else {
-                    _uiState.value = MainScreenState.Success(chats.value)
-                }
             } catch (e: Exception) {
-                _uiState.value = MainScreenState.Error("Exception")
+                throw e
             }
         }
     }
@@ -106,13 +110,16 @@ internal class MainScreenViewModel(
 
     fun setFilteredChatsList() {
         viewModelScope.launch {
+            Log.d("test", filteredChatsMutable.value.toString())
             _uiState.value = MainScreenState.Loading
-            delay(1000)
+            Log.d("test1", filteredChatsMutable.value.toString())
             try {
-                filteredChatsMutable.value = if (searchedText.value.isEmpty()) {
+                Log.d("test2", filteredChatsMutable.value.toString())
+                filteredChatsMutable.value = if (searchedText.value.isBlank()) {
                     chats.value.toMutableList()
                 } else {
                     val resultList = mutableListOf<ChatUiModel>()
+                    Log.d("test3", filteredChatsMutable.value.toString())
                     chats.value.forEach { chat ->
                         if (getUserById(chat.secondUserId).value.name.firstName.lowercase(Locale.getDefault())
                                 .contains(searchedText.value.lowercase(Locale.getDefault())) ||
@@ -121,11 +128,14 @@ internal class MainScreenViewModel(
                         ) {
                             resultList.add(chat)
                         }
+                        Log.d("test6", filteredChatsMutable.value.toString())
                         if (resultList.isEmpty()) {
                         _uiState.value = MainScreenState.EmptyList
                     } else {
-                        _uiState.value = MainScreenState.Success(filteredChats.value)
-                    }
+                            Log.d("test4", filteredChatsMutable.value.toString())
+                            _uiState.value = MainScreenState.Success(filteredChats.value)
+                            Log.d("test5", filteredChatsMutable.value.toString())
+                        }
                     }
                     resultList
                 }
@@ -147,6 +157,21 @@ internal class MainScreenViewModel(
         }
     }
 
+    private fun getAllMessagesFlow() {
+        viewModelScope.launch {
+            try {
+                val messagesFlow = getAllMessagesUseCase.invoke()
+                messagesFlow.collect { messages ->
+                    messages.forEach { message ->
+                        messagesMutable.value.add(domainMessageToUiMessageMapper.map(message))
+                    }
+                }
+            } catch (e: Exception) {
+                throw e
+            }
+        }
+    }
+
     fun setSearchText(text: String) {
         searchedTextMutable.value = text
     }
@@ -154,5 +179,6 @@ internal class MainScreenViewModel(
     fun getAllUsers(): StateFlow<List<UserUiModel>> = users
     fun getAllChats(): StateFlow<List<ChatUiModel>> = chats
     fun getFilteredChatList(): StateFlow<List<ChatUiModel>> = filteredChats
+    fun getAllMessages(): StateFlow<List<MessageUiModel>> = messages
 
 }

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,7 +16,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.androidx.compose.koinViewModel
 import ru.alexsergeev.presentation.models.ChatUiModel
 import ru.alexsergeev.presentation.theme.WinDiTheme
-import ru.alexsergeev.presentation.utils.mock.messages
 import ru.alexsergeev.presentation.viewmodel.MainScreenViewModel
 
 @Composable
@@ -29,6 +27,7 @@ internal fun ChannelListItem(
 ) {
 
     val user = mainScreenViewModel.getUserById(userId).value
+    val messages by mainScreenViewModel.getAllMessages().collectAsStateWithLifecycle()
 
     Row(
         modifier = Modifier

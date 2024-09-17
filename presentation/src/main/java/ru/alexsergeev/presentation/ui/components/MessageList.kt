@@ -41,7 +41,7 @@ internal fun MessageList(
                     modifier = Modifier.fillMaxSize(),
                     reverseLayout = true,
                 ) {
-                    current.messages.filter { it.text.isNotBlank() }.forEach {
+                    current.messages.reversed().filter { it.text.isNotBlank() }.forEach {
                         item {
                             MessageCard(it, userId)
                         }

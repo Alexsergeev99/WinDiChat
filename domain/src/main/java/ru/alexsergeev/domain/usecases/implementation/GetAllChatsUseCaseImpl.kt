@@ -7,6 +7,7 @@ import ru.alexsergeev.domain.repository.ChatsRepository
 import ru.alexsergeev.domain.repository.MessageRepository
 import ru.alexsergeev.domain.usecases.interfaces.GetAllChatsUseCase
 import ru.alexsergeev.domain.usecases.interfaces.GetAllMessagesUseCase
+import ru.alexsergeev.domain.usecases.interfaces.SendMessageUseCase
 
 internal class GetAllChatsUseCaseImpl(
     private val repository: ChatsRepository
@@ -14,8 +15,9 @@ internal class GetAllChatsUseCaseImpl(
     override fun invoke(): Flow<List<ChatDomainModel>> = repository.getAllChats()
 }
 
-internal class GetAllMessagesUseCaseImpl(
+internal class SendMessageUseCaseImpl(
     private val repository: MessageRepository
-) : GetAllMessagesUseCase {
-    override fun invoke(): Flow<List<MessageDomainModel>> = repository.getAllMessages()
+) : SendMessageUseCase {
+    override suspend fun invoke(message: MessageDomainModel) = repository.sendMessage(message)
 }
+

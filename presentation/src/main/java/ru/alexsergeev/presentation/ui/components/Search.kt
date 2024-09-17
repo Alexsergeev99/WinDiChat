@@ -107,11 +107,9 @@ internal fun Search(
             },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Next
+                imeAction = ImeAction.Search
             ),
-            keyboardActions = KeyboardActions(onSearch = { onSearchClicked() }, onNext = {
-                focusManager.moveFocus(FocusDirection.Down)
-            }),
+            keyboardActions = KeyboardActions(onSearch = { onSearchClicked() }),
             singleLine = true,
         )
     }

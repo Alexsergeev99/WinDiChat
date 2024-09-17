@@ -14,6 +14,7 @@ import ru.alexsergeev.domain.usecases.interfaces.GetAllMessagesUseCase
 import ru.alexsergeev.domain.usecases.interfaces.GetAllUsersUseCase
 import ru.alexsergeev.domain.usecases.interfaces.GetUserByIdUseCase
 import ru.alexsergeev.domain.usecases.interfaces.GetUserProfileUseCase
+import ru.alexsergeev.domain.usecases.interfaces.SendMessageUseCase
 import ru.alexsergeev.presentation.models.FullName
 import ru.alexsergeev.presentation.models.MessageUiModel
 import ru.alexsergeev.presentation.models.Phone
@@ -21,14 +22,17 @@ import ru.alexsergeev.presentation.models.UserUiModel
 import ru.alexsergeev.presentation.states.MessagesListState
 import ru.alexsergeev.presentation.utils.mappers.DomainMessageToUiMessageMapper
 import ru.alexsergeev.presentation.utils.mappers.DomainUserToUiUserMapper
+import ru.alexsergeev.presentation.utils.mappers.UiMessageToDomainMessageMapper
 
 internal class MessagesListViewModel(
     private val getAllUsersUseCase: GetAllUsersUseCase,
     private val getAllMessagesUseCase: GetAllMessagesUseCase,
     private val getUserByIdUseCase: GetUserByIdUseCase,
     private val getUserProfileUseCase: GetUserProfileUseCase,
+    private val sendMessageUseCase: SendMessageUseCase,
     private val domainUserToUiUserMapper: DomainUserToUiUserMapper,
     private val domainMessageToUiMessageMapper: DomainMessageToUiMessageMapper,
+    private val uiMessageToDomainMessageMapper: UiMessageToDomainMessageMapper,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<MessagesListState>(MessagesListState.Loading)
@@ -79,7 +83,6 @@ internal class MessagesListViewModel(
     private fun getAllMessagesFlow() {
         viewModelScope.launch {
             _uiState.value = MessagesListState.Loading
-            delay(1000)
             try {
                 val messagesFlow = getAllMessagesUseCase.invoke()
                 messagesFlow.collect { messages ->
@@ -119,6 +122,13 @@ internal class MessagesListViewModel(
             return userData
         } catch (e: Exception) {
             throw e
+        }
+    }
+
+    fun sendMessage(message: MessageUiModel) {
+        viewModelScope.launch {
+            sendMessageUseCase.invoke(uiMessageToDomainMessageMapper.map(message))
+            messagesMutable.value.add(message)
         }
     }
 
