@@ -33,9 +33,10 @@ fun Navigation() {
         composable("main_screen") {
             MainScreen(navController = navController)
         }
-        composable("messages_list") {
+        composable("messages_list/{id}") {
             MessageListScreen(
                 navController = navController,
+                it.arguments?.getString("id") ?: "0",
             )
         }
         composable("profile_screen") {

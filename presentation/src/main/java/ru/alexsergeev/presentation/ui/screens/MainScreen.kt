@@ -76,7 +76,7 @@ internal fun MainScreen(
                                     chat = it,
                                     userId = it.secondUserId
                                 ) {
-                                    navController.navigate("messages_list")
+                                    navController.navigate("messages_list/${it.secondUserId.toString()}")
                                 }
                                 HorizontalDivider()
                             }

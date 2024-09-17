@@ -7,11 +7,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.alexsergeev.domain.usecases.interfaces.GetAllMessagesUseCase
 import ru.alexsergeev.domain.usecases.interfaces.GetAllUsersUseCase
 import ru.alexsergeev.domain.usecases.interfaces.GetUserByIdUseCase
+import ru.alexsergeev.domain.usecases.interfaces.GetUserProfileUseCase
 import ru.alexsergeev.presentation.models.FullName
 import ru.alexsergeev.presentation.models.MessageUiModel
 import ru.alexsergeev.presentation.models.Phone
@@ -24,6 +26,7 @@ internal class MessagesListViewModel(
     private val getAllUsersUseCase: GetAllUsersUseCase,
     private val getAllMessagesUseCase: GetAllMessagesUseCase,
     private val getUserByIdUseCase: GetUserByIdUseCase,
+    private val getUserProfileUseCase: GetUserProfileUseCase,
     private val domainUserToUiUserMapper: DomainUserToUiUserMapper,
     private val domainMessageToUiMessageMapper: DomainMessageToUiMessageMapper,
 ) : ViewModel() {
@@ -99,6 +102,18 @@ internal class MessagesListViewModel(
         try {
             viewModelScope.launch {
                 val user = getUserByIdUseCase.invoke(id).first()
+                userDataMutable.update { domainUserToUiUserMapper.map(user) }
+            }
+            return userData
+        } catch (e: Exception) {
+            throw e
+        }
+    }
+
+    fun getUserData(): StateFlow<UserUiModel> {
+        try {
+            viewModelScope.launch {
+                val user = getUserProfileUseCase.invoke().last()
                 userDataMutable.update { domainUserToUiUserMapper.map(user) }
             }
             return userData

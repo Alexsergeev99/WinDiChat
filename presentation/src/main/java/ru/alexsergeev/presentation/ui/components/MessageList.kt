@@ -21,11 +21,12 @@ import ru.alexsergeev.presentation.viewmodel.MessagesListViewModel
 @Composable
 internal fun MessageList(
     navController: NavController,
+    userId: String,
     messagesListViewModel: MessagesListViewModel = koinViewModel()
 ) {
     val uiState by messagesListViewModel.uiState.collectAsStateWithLifecycle()
 
-    Box(modifier = Modifier.fillMaxWidth().fillMaxHeight(0.95f),
+    Box(modifier = Modifier.fillMaxWidth().fillMaxHeight(0.9f),
         contentAlignment = Alignment.Center
     ) {
         when (val current = uiState) {
@@ -42,7 +43,7 @@ internal fun MessageList(
                 ) {
                     current.messages.filter { it.text.isNotBlank() }.forEach {
                         item {
-                            MessageCard(it)
+                            MessageCard(it, userId)
                         }
                     }
                 }

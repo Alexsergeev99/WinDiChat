@@ -8,24 +8,30 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.androidx.compose.koinViewModel
 import ru.alexsergeev.presentation.models.MessageUiModel
 import ru.alexsergeev.presentation.theme.WinDiTheme
 import ru.alexsergeev.presentation.utils.cardShapeFor
-import ru.alexsergeev.presentation.viewmodel.MainScreenViewModel
+import ru.alexsergeev.presentation.viewmodel.MessagesListViewModel
 
 @Composable
 internal fun MessageCard(
     messageUiModel: MessageUiModel,
-    mainScreenViewModel: MainScreenViewModel = koinViewModel()
+    userId: String,
+    messagesListViewModel: MessagesListViewModel = koinViewModel()
 ) {
 
     val mine = messageUiModel.senderId == 1
+
+    val secondUser = messagesListViewModel.getUserById(userId.toInt()).value
+    val user = messagesListViewModel.getUserData().value
+
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -52,16 +58,15 @@ internal fun MessageCard(
                     mine -> WinDiTheme.colors.disabledComponent
                     else -> WinDiTheme.colors.activeComponent
                 },
+                style = WinDiTheme.typography.body2
             )
         }
         Text(
             text = when {
-                mine -> mainScreenViewModel.getUserById(messageUiModel.senderId).value.name.firstName
-
-                else -> mainScreenViewModel.getUserById(messageUiModel.senderId).value.name.firstName
+                mine -> user.name.firstName
+                else -> secondUser.name.firstName
             },
-            fontSize = 12.sp,
+            style = WinDiTheme.typography.metadata1,
         )
-
     }
 }

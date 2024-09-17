@@ -30,7 +30,7 @@ internal fun WinDiTopBar(
     needToShare: Boolean = false,
     iAmGuest: Boolean = false,
     goToEditScreen: () -> Unit = { navController.navigate("edit_profile_screen") },
-    goToProfileScreen: () -> Unit = { },
+    goToProfileScreen: () -> Unit = { navController.navigate("profile_screen") },
     goToBackScreen: () -> Unit = { navController.navigateUp() },
 ) {
     Row(

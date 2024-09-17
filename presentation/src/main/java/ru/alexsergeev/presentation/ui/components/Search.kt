@@ -23,8 +23,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -49,7 +51,7 @@ internal fun Search(
     onTextChange: (String) -> Unit = {},
     text: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) }
 ) {
-
+    val focusManager = LocalFocusManager.current
     Row(
         modifier = Modifier
             .padding(vertical = padding)
@@ -105,9 +107,11 @@ internal fun Search(
             },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Search
+                imeAction = ImeAction.Next
             ),
-            keyboardActions = KeyboardActions(onSearch = { onSearchClicked() }),
+            keyboardActions = KeyboardActions(onSearch = { onSearchClicked() }, onNext = {
+                focusManager.moveFocus(FocusDirection.Down)
+            }),
             singleLine = true,
         )
     }
