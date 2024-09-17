@@ -20,16 +20,17 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.getstream.sdk.chat.viewmodel.MessageInputViewModel
 import io.getstream.chat.android.ui.message.list.viewmodel.factory.MessageListViewModelFactory
+import org.koin.androidx.compose.koinViewModel
+import ru.alexsergeev.presentation.viewmodel.MessagesListViewModel
 
 @Composable
 internal fun MessageInput(
-    factory: MessageListViewModelFactory,
-    messageInputViewModel: MessageInputViewModel = viewModel(factory = factory),
+    messagesListViewModel: MessagesListViewModel = koinViewModel()
 ) {
     var inputValue by remember { mutableStateOf("") }
 
     fun sendMessage() {
-        messageInputViewModel.sendMessage(inputValue)
+//        messagesListViewModel.sendMessage(inputValue)
         inputValue = ""
     }
 

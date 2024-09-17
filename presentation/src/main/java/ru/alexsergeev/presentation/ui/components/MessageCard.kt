@@ -12,44 +12,56 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.getstream.sdk.chat.adapter.MessageListItem
-import io.getstream.chat.android.client.models.name
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.koin.androidx.compose.koinViewModel
+import ru.alexsergeev.presentation.models.MessageUiModel
 import ru.alexsergeev.presentation.theme.WinDiTheme
 import ru.alexsergeev.presentation.utils.cardShapeFor
+import ru.alexsergeev.presentation.viewmodel.MainScreenViewModel
 
 @Composable
-internal fun MessageCard(messageItem: MessageListItem.MessageItem) { // 1
+internal fun MessageCard(
+    messageUiModel: MessageUiModel,
+    mainScreenViewModel: MainScreenViewModel = koinViewModel()
+) {
+
+    val mine = messageUiModel.senderId == 1
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 8.dp, vertical = 4.dp),
-        horizontalAlignment = when { // 2
-            messageItem.isMine -> Alignment.End
+        horizontalAlignment = when {
+            messageUiModel.senderId == 1 -> Alignment.End
             else -> Alignment.Start
         },
     ) {
         Card(
             modifier = Modifier.widthIn(max = 340.dp),
-            shape = cardShapeFor(messageItem), // 3
+            shape = cardShapeFor(messageUiModel),
             colors = CardDefaults.cardColors(
                 containerColor = when {
-                    messageItem.isMine -> WinDiTheme.colors.activeComponent
-                    else -> WinDiTheme.colors.disabledText
+                    mine -> WinDiTheme.colors.activeComponent
+                    else -> WinDiTheme.colors.disabledComponent
                 }
             ),
         ) {
             Text(
                 modifier = Modifier.padding(8.dp),
-                text = messageItem.message.text,
+                text = messageUiModel.text,
                 color = when {
-                    messageItem.isMine -> WinDiTheme.colors.activeComponent
-                    else -> WinDiTheme.colors.disabledText
+                    mine -> WinDiTheme.colors.disabledComponent
+                    else -> WinDiTheme.colors.activeComponent
                 },
             )
         }
         Text(
-            text = messageItem.message.user.name,
+            text = when {
+                mine -> mainScreenViewModel.getUserById(messageUiModel.senderId).value.name.firstName
+
+                else -> mainScreenViewModel.getUserById(messageUiModel.senderId).value.name.firstName
+            },
             fontSize = 12.sp,
         )
+
     }
 }
