@@ -9,6 +9,7 @@ import ru.alexsergeev.presentation.ui.screens.InputPhoneNumberScreen
 import ru.alexsergeev.presentation.ui.screens.MainScreen
 import ru.alexsergeev.presentation.ui.screens.MessageListScreen
 import ru.alexsergeev.presentation.ui.screens.SplashScreen
+import ru.alexsergeev.presentation.ui.screens.UserProfileScreen
 
 @Composable
 fun Navigation() {
@@ -34,6 +35,9 @@ fun Navigation() {
                 navController = navController,
                 cid = it.arguments?.getString("id")!!
             )
+        }
+        composable("profile_screen") {
+            UserProfileScreen(navController = navController)
         }
     }
 }

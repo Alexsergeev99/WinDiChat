@@ -22,12 +22,12 @@ import ru.alexsergeev.presentation.viewmodel.MainScreenViewModel
 @Composable
 internal fun ChannelListItem(
     chat: ChatUiModel,
-    userId: Int = 1,
+    userId: Int,
     mainScreenViewModel: MainScreenViewModel = koinViewModel(),
     onClick: () -> Unit = {}
 ) {
 
-    val user by mainScreenViewModel.getUserById(userId).collectAsStateWithLifecycle()
+    val user = mainScreenViewModel.getUserById(userId).value
 
     Row(
         modifier = Modifier
@@ -39,12 +39,7 @@ internal fun ChannelListItem(
         UserAvatarSmall(user.avatar)
         Column(modifier = Modifier.padding(start = 8.dp)) {
             Text(
-                text = "${
-                    mainScreenViewModel.getUserById(chat.secondUserId)
-                        .collectAsStateWithLifecycle().value.name.firstName
-                } " +
-                        mainScreenViewModel.getUserById(chat.secondUserId)
-                            .collectAsStateWithLifecycle().value.name.secondName,
+                text = "${user.name.firstName} ${user.name.secondName}",
                 style = WinDiTheme.typography.subheading2,
             )
 

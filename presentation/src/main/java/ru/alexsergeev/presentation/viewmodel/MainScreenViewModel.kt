@@ -19,6 +19,7 @@ import ru.alexsergeev.presentation.models.UserUiModel
 import ru.alexsergeev.presentation.states.MainScreenState
 import ru.alexsergeev.presentation.utils.mappers.DomainChatToUiChatMapper
 import ru.alexsergeev.presentation.utils.mappers.DomainUserToUiUserMapper
+import java.util.Locale
 
 internal class MainScreenViewModel(
     private val getAllUsersUseCase: GetAllUsersUseCase,
@@ -53,9 +54,16 @@ internal class MainScreenViewModel(
     private val chatsMutable = MutableStateFlow<MutableList<ChatUiModel>>(mutableListOf())
     private val chats: StateFlow<List<ChatUiModel>> = chatsMutable
 
+    private val filteredChatsMutable = MutableStateFlow<MutableList<ChatUiModel>>(mutableListOf())
+    private val filteredChats: StateFlow<List<ChatUiModel>> = filteredChatsMutable
+
+    private val searchedTextMutable = MutableStateFlow<String>("")
+    private val searchedText: StateFlow<String> = searchedTextMutable
+
     init {
         getAllUsersFlow()
         getAllChatsFlow()
+        setFilteredChatsList()
     }
 
     private fun getAllUsersFlow() {
@@ -95,6 +103,38 @@ internal class MainScreenViewModel(
         }
     }
 
+
+    fun setFilteredChatsList() {
+        viewModelScope.launch {
+            _uiState.value = MainScreenState.Loading
+            delay(1000)
+            try {
+                filteredChatsMutable.value = if (searchedText.value.isEmpty()) {
+                    chats.value.toMutableList()
+                } else {
+                    val resultList = mutableListOf<ChatUiModel>()
+                    chats.value.forEach { chat ->
+                        if (getUserById(chat.secondUserId).value.name.firstName.lowercase(Locale.getDefault())
+                                .contains(searchedText.value.lowercase(Locale.getDefault())) ||
+                            getUserById(chat.secondUserId).value.name.secondName.lowercase(Locale.getDefault())
+                                .contains(searchedText.value.lowercase(Locale.getDefault()))
+                        ) {
+                            resultList.add(chat)
+                        }
+                        if (resultList.isEmpty()) {
+                        _uiState.value = MainScreenState.EmptyList
+                    } else {
+                        _uiState.value = MainScreenState.Success(filteredChats.value)
+                    }
+                    }
+                    resultList
+                }
+            } catch (e: Exception) {
+                _uiState.value = MainScreenState.Error("Exception")
+            }
+        }
+    }
+
     fun getUserById(id: Int): StateFlow<UserUiModel> {
         try {
             viewModelScope.launch {
@@ -107,7 +147,12 @@ internal class MainScreenViewModel(
         }
     }
 
+    fun setSearchText(text: String) {
+        searchedTextMutable.value = text
+    }
+
     fun getAllUsers(): StateFlow<List<UserUiModel>> = users
     fun getAllChats(): StateFlow<List<ChatUiModel>> = chats
+    fun getFilteredChatList(): StateFlow<List<ChatUiModel>> = filteredChats
 
 }

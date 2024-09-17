@@ -6,4 +6,5 @@ internal sealed class MainScreenState {
     data object Loading : MainScreenState()
     data class Success(val chats: List<ChatUiModel>) : MainScreenState()
     data class Error(val message: String) : MainScreenState()
+    data object EmptyList : MainScreenState()
 }

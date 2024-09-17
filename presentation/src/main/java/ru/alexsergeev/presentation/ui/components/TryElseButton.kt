@@ -21,7 +21,7 @@ internal fun TryElseButton(text: String, onClick: () -> Unit) {
         modifier = Modifier
             .padding(vertical = 16.dp, horizontal = 4.dp)
             .clip(RoundedCornerShape(6.dp))
-            .width(176.dp)
+            .width(186.dp)
             .height(36.dp),
         colors = ButtonDefaults.outlinedButtonColors(
             contentColor = Color.White,

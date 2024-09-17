@@ -31,7 +31,7 @@ import ru.alexsergeev.presentation.viewmodel.UserProfileViewModel
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-internal fun ProfileScreen(
+internal fun UserProfileScreen(
     navController: NavController,
     userProfileViewModel: UserProfileViewModel = koinViewModel()
 ) {
@@ -68,7 +68,7 @@ internal fun ProfileScreen(
                 padding = 20.dp
             )
             Text(
-                text = "${user.name.firstName} ${user.name.secondName}",
+                text = "${user.name.firstName} ${user.name.secondName}".ifBlank { "Новый пользователь" },
                 color = Color.Black,
                 style = WinDiTheme.typography.heading2
             )
@@ -81,10 +81,10 @@ internal fun ProfileScreen(
                 modifier = Modifier
                     .padding(vertical = 8.dp)
             ) {
-                LogoButton(R.drawable.behance_logo)
-                LogoButton(R.drawable.pinterest_logo)
-                LogoButton(R.drawable.linkedin_logo_new)
-                LogoButton(R.drawable.vk_logo)
+                LogoButton(R.drawable.fb_logo)
+                LogoButton(R.drawable.insta_logo)
+                LogoButton(R.drawable.link_logo)
+                LogoButton(R.drawable.twitter_logo)
             }
             Box(
                 modifier = Modifier.fillMaxSize(),
