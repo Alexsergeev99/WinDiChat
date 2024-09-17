@@ -6,6 +6,8 @@ data class UserDomainModel(
     val phone: Phone,
     val avatar: String,
     val city: String = "",
+    val info: String = "",
+    val username: String = ""
 )
 
 data class FullName(

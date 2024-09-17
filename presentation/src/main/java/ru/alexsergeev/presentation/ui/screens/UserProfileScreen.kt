@@ -65,7 +65,6 @@ internal fun UserProfileScreen(
             )
             UserAvatar(
                 image = user.avatar,
-                padding = 20.dp
             )
             Text(
                 text = "${user.name.firstName} ${user.name.secondName}".ifBlank { "Новый пользователь" },
@@ -73,9 +72,19 @@ internal fun UserProfileScreen(
                 style = WinDiTheme.typography.heading2
             )
             Text(
+                text = "@${user.username}",
+                color = Color.Black,
+                style = WinDiTheme.typography.subheading1
+            )
+            Text(
                 text = "${user.phone.countryCode} ${user.phone.basicNumber}",
                 color = Color.Black,
-                style = WinDiTheme.typography.subheading2
+                style = WinDiTheme.typography.subheading1
+            )
+            Text(
+                text = user.city,
+                color = Color.Black,
+                style = WinDiTheme.typography.subheading1
             )
             Row(
                 modifier = Modifier

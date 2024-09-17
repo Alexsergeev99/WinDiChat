@@ -22,8 +22,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import ru.alexsergeev.presentation.R
 import ru.alexsergeev.presentation.theme.WinDiTheme
 
@@ -91,7 +89,7 @@ private fun CharView(
     } else {
         Box(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(8.dp)
                 .width(32.dp)
                 .height(40.dp),
             contentAlignment = Alignment.Center

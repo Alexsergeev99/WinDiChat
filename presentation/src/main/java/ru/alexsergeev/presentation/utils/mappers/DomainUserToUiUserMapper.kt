@@ -14,7 +14,7 @@ internal class DomainUserToUiUserMapper : Mapper<UserDomainModel, UserUiModel> {
             id,
             FullName(firstName = input.name.firstName, secondName = input.name.secondName),
             Phone(input.phone.countryCode, input.phone.basicNumber),
-            avatar, city
+            avatar, city, info, username
         )
     }
 }

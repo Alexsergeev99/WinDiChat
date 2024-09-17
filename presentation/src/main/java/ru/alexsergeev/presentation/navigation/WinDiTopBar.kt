@@ -29,7 +29,7 @@ internal fun WinDiTopBar(
     goToProfile: Boolean = false,
     needToShare: Boolean = false,
     iAmGuest: Boolean = false,
-    goToEditScreen: () -> Unit = { },
+    goToEditScreen: () -> Unit = { navController.navigate("edit_profile_screen") },
     goToProfileScreen: () -> Unit = { },
     goToBackScreen: () -> Unit = { navController.navigateUp() },
 ) {

@@ -1,5 +1,7 @@
 package ru.alexsergeev.presentation.ui.components
 
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -22,15 +24,27 @@ internal fun UserAvatarSmall(image: String) {
     )
 }
 
+//@Composable
+//internal fun UserAvatar(image: String, padding: Dp = 4.dp) {
+//    AsyncImage(
+//        modifier = Modifier
+//            .padding(padding)
+//            .size(200.dp)
+//            .clip(CircleShape),
+//        contentScale = ContentScale.Crop,
+//        model = image,
+//        contentDescription = "avatar",
+//    )
+//}
+
 @Composable
-internal fun UserAvatar(image: String, padding: Dp = 4.dp) {
+fun UserAvatar(image: String) {
     AsyncImage(
         modifier = Modifier
-            .padding(padding)
-            .size(200.dp)
-            .clip(CircleShape),
-        contentScale = ContentScale.Crop,
+            .fillMaxWidth()
+            .height(350.dp),
         model = image,
+        contentScale = ContentScale.FillBounds,
         contentDescription = "avatar",
     )
 }

@@ -5,9 +5,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import ru.alexsergeev.presentation.ui.screens.CodeScreen
+import ru.alexsergeev.presentation.ui.screens.EditProfileScreen
 import ru.alexsergeev.presentation.ui.screens.InputPhoneNumberScreen
 import ru.alexsergeev.presentation.ui.screens.MainScreen
 import ru.alexsergeev.presentation.ui.screens.MessageListScreen
+import ru.alexsergeev.presentation.ui.screens.RemoveProfileScreen
 import ru.alexsergeev.presentation.ui.screens.SplashScreen
 import ru.alexsergeev.presentation.ui.screens.UserProfileScreen
 
@@ -38,6 +40,12 @@ fun Navigation() {
         }
         composable("profile_screen") {
             UserProfileScreen(navController = navController)
+        }
+        composable("edit_profile_screen") {
+            EditProfileScreen(navController = navController)
+        }
+        composable("remove_profile_screen") {
+            RemoveProfileScreen(navController = navController)
         }
     }
 }

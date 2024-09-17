@@ -88,7 +88,8 @@ internal fun CodeScreen(
             otpText = codeValue.value,
             onOtpTextChange = { value, _ ->
                 codeValue.value = value
-                codeScreenViewModel.validateCodeFlow(codeValue.value.toInt())
+//                codeScreenViewModel.validateCodeFlow(codeValue.value.toInt())
+                codeScreenViewModel.validateCodeFlow(if (codeValue.value.isNotBlank()) codeValue.value.toInt() else 0)
                 if (codeScreenViewModel.validateCode().value) {
                     navController.navigate("main_screen")
                 }

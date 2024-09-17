@@ -19,6 +19,8 @@ internal class UiUserToDomainUserMapper : Mapper<UserUiModel, UserDomainModel> {
             ),
             avatar = avatar,
             city = city,
+            info = info,
+            username = username
         )
     }
 }

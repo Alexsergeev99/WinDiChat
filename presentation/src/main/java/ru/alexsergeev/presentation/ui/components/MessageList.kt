@@ -20,16 +20,16 @@ internal fun MessageList(
     modifier: Modifier = Modifier,
     navController: NavController,
     factory: MessageListViewModelFactory,
-    messageListViewModel: MessageListViewModel = viewModel(factory = factory), // 1
+    messageListViewModel: MessageListViewModel = viewModel(factory = factory),
 ) {
-    val state by messageListViewModel.state.observeAsState() // 2
+    val state by messageListViewModel.state.observeAsState()
     val messageState = state ?: return
 
     Box(
         modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
-        when (messageState) { // 3
+        when (messageState) {
             is MessageListViewModel.State.Loading -> {
                 CircularProgressIndicator()
             }
@@ -39,14 +39,14 @@ internal fun MessageList(
             }
 
             is MessageListViewModel.State.Result -> {
-                val messageItems = messageState.messageListItem.items // 4
+                val messageItems = messageState.messageListItem.items
                     .filterIsInstance<MessageListItem.MessageItem>()
                     .filter { it.message.text.isNotBlank() }
                     .asReversed()
 
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
-                    reverseLayout = true, // 5
+                    reverseLayout = true,
                 ) {
                     messageItems.forEach {
                         item {
