@@ -172,7 +172,7 @@ internal fun RegistrationScreen(
                     modifier = Modifier
                         .height(48.dp)
                 )
-                EditProfileButtonChanger(navController, user)
+                EditProfileButtonChanger(navController)
             }
         }
     }

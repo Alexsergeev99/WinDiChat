@@ -10,6 +10,8 @@ import retrofit2.http.POST
 import ru.alexsergeev.data.BuildConfig
 import ru.alexsergeev.data.models.CodeRequest
 import ru.alexsergeev.data.models.PhoneRequest
+import ru.alexsergeev.data.models.RegisterRequest
+import ru.alexsergeev.data.models.RegisterResponse
 import ru.alexsergeev.data.models.SendCodeResponse
 import ru.alexsergeev.data.models.VerifyCodeResponse
 import java.util.concurrent.TimeUnit
@@ -22,6 +24,9 @@ internal interface ApiService {
 
     @POST("api/v1/users/check-auth-code/")
     suspend fun verifyCode(@Body codeRequest: CodeRequest): Response<VerifyCodeResponse>
+
+    @POST("api/v1/users/register/")
+    suspend fun registerUser(@Body registerRequest: RegisterRequest): Response<RegisterResponse>
 }
 
 internal fun provideOkHttpClient() = if (BuildConfig.DEBUG) {

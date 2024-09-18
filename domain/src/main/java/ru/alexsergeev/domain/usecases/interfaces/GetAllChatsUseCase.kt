@@ -7,7 +7,3 @@ import ru.alexsergeev.domain.models.MessageDomainModel
 interface GetAllChatsUseCase {
     fun invoke(): Flow<List<ChatDomainModel>>
 }
-
-interface SendCodeUseCase {
-    fun invoke(phone: String): Flow<Boolean>
-}

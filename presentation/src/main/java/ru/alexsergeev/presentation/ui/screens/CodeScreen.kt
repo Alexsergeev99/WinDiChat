@@ -72,7 +72,7 @@ internal fun CodeScreen(
 
     LaunchedEffect(isCodeValid) {
         if (isCodeValid) {
-            navController.navigate("registration_screen")
+            navController.navigate("main_screen")
         }
     }
 

@@ -49,9 +49,7 @@ internal fun InputPhoneNumberButtonChanger(
 
     LaunchedEffect(status) {
         if (status) {
-            navController.navigate("code_screen")
-        } else if (!checkPhoneNumberLength.value) {
-            Toast.makeText(context, "Ошибка при отправке кода", Toast.LENGTH_LONG).show()
+            navController.navigate("registration_screen")
         }
     }
 

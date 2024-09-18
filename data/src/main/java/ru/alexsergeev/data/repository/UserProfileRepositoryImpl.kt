@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.update
 import ru.alexsergeev.data.api.ApiService
 import ru.alexsergeev.data.models.CodeRequest
 import ru.alexsergeev.data.models.PhoneRequest
+import ru.alexsergeev.data.models.RegisterRequest
 import ru.alexsergeev.domain.models.FullName
 import ru.alexsergeev.domain.models.Phone
 import ru.alexsergeev.domain.models.UserDomainModel
@@ -75,6 +76,19 @@ internal class UserProfileRepositoryImpl(
         } catch (e: Exception) {
             Log.e("Unknown Error", "Exception: ${e.message}")
             emit(false)
+        }
+    }
+
+    override suspend fun registerUser(phone: String, name: String, username: String) {
+        try {
+            val response = apiService.registerUser(RegisterRequest(phone, name, username))
+            if (!response.isSuccessful) {
+                Log.e("API Error", "Code: ${response.code()}, Message: ${response.message()}")
+            }
+        } catch (e: IOException) {
+            Log.e("Network Error", "IOException: ${e.message}")
+        } catch (e: Exception) {
+            Log.e("Unknown Error", "Exception: ${e.message}")
         }
     }
 }

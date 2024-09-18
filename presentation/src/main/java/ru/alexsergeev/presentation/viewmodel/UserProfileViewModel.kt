@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.alexsergeev.domain.usecases.interfaces.GetUserProfileUseCase
+import ru.alexsergeev.domain.usecases.interfaces.RegisterUserUseCase
 import ru.alexsergeev.domain.usecases.interfaces.SetUserProfileUseCase
 import ru.alexsergeev.presentation.models.FullName
 import ru.alexsergeev.presentation.models.Phone
@@ -19,6 +20,7 @@ internal class UserProfileViewModel(
     private val getUserProfileUseCase: GetUserProfileUseCase,
     private val domainUserToUiUserMapper: DomainUserToUiUserMapper,
     private val setUserProfileUseCase: SetUserProfileUseCase,
+    private val registerUserUseCase: RegisterUserUseCase,
     private val uiUserToDomainUserMapper: UiUserToDomainUserMapper
 ) : ViewModel() {
 
@@ -55,6 +57,20 @@ internal class UserProfileViewModel(
             viewModelScope.launch {
                 setUserProfileUseCase.invoke(uiUserToDomainUserMapper.map(userUiModel))
                 userDataMutable.update { userUiModel }
+            }
+        } catch (e: Exception) {
+            throw e
+        }
+    }
+
+    fun registerUser(userUiModel: UserUiModel) {
+        try {
+            viewModelScope.launch {
+                registerUserUseCase.invoke(
+                    phone = "${userUiModel.phone.countryCode}${userUiModel.phone.basicNumber}",
+                    name = "${userUiModel.name.firstName} ${userUiModel.name.secondName}",
+                    username = userUiModel.username
+                )
             }
         } catch (e: Exception) {
             throw e
