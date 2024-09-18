@@ -127,8 +127,8 @@ internal class MessagesListViewModel(
 
     fun sendMessage(message: MessageUiModel) {
         viewModelScope.launch {
-            sendMessageUseCase.invoke(uiMessageToDomainMessageMapper.map(message))
             messagesMutable.value.add(message)
+            sendMessageUseCase.invoke(uiMessageToDomainMessageMapper.map(message))
         }
     }
 

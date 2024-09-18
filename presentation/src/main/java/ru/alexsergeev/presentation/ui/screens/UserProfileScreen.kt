@@ -1,6 +1,7 @@
 package ru.alexsergeev.presentation.ui.screens
 
 import android.annotation.SuppressLint
+import android.content.pm.ActivityInfo
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -27,6 +28,7 @@ import ru.alexsergeev.presentation.navigation.WinDiTopBar
 import ru.alexsergeev.presentation.theme.WinDiTheme
 import ru.alexsergeev.presentation.ui.components.UserAvatar
 import ru.alexsergeev.presentation.ui.components.LogoButton
+import ru.alexsergeev.presentation.utils.LockScreenOrientation
 import ru.alexsergeev.presentation.viewmodel.UserProfileViewModel
 
 @SuppressLint("StateFlowValueCalledInComposition")
@@ -35,6 +37,7 @@ internal fun UserProfileScreen(
     navController: NavController,
     userProfileViewModel: UserProfileViewModel = koinViewModel()
 ) {
+    LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
     val user by userProfileViewModel.getUserData().collectAsStateWithLifecycle()
 

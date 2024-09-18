@@ -1,5 +1,6 @@
 package ru.alexsergeev.presentation.ui.screens
 
+import android.content.pm.ActivityInfo
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,9 +16,12 @@ import androidx.compose.ui.unit.dp
 import ru.alexsergeev.presentation.R
 import ru.alexsergeev.presentation.theme.WinDiTheme
 import ru.alexsergeev.presentation.ui.components.TryElseButton
+import ru.alexsergeev.presentation.utils.LockScreenOrientation
 
 @Composable
 internal fun ErrorScreen(onClick: () -> Unit) {
+    LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+
     Column(
         modifier = Modifier
             .fillMaxSize(),

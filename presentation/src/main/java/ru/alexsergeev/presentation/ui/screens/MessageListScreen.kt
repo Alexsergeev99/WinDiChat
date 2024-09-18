@@ -1,5 +1,6 @@
 package ru.alexsergeev.presentation.ui.screens
 
+import android.content.pm.ActivityInfo
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,6 +19,7 @@ import androidx.navigation.NavController
 import ru.alexsergeev.presentation.navigation.WinDiTopBar
 import ru.alexsergeev.presentation.ui.components.MessageInput
 import ru.alexsergeev.presentation.ui.components.MessageList
+import ru.alexsergeev.presentation.utils.LockScreenOrientation
 import ru.alexsergeev.presentation.utils.rememberImeState
 
 @Composable
@@ -25,6 +27,8 @@ internal fun MessageListScreen(
     navController: NavController,
     userId: String
 ) {
+    LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+
     val imeState = rememberImeState()
     val scrollState = rememberScrollState()
 
@@ -36,7 +40,8 @@ internal fun MessageListScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(16.dp)
+            .imePadding(),
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

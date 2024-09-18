@@ -1,5 +1,6 @@
 package ru.alexsergeev.presentation.ui.screens
 
+import android.content.pm.ActivityInfo
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +30,7 @@ import ru.alexsergeev.presentation.theme.WinDiTheme
 import ru.alexsergeev.presentation.ui.components.InputCodeCountryField
 import ru.alexsergeev.presentation.ui.components.InputNumberTextField
 import ru.alexsergeev.presentation.ui.components.InputPhoneNumberButtonChanger
+import ru.alexsergeev.presentation.utils.LockScreenOrientation
 import ru.alexsergeev.presentation.viewmodel.InputPhoneNumberViewModel
 
 private const val INPUT_PHONE_HINT = "999 999-99-99"
@@ -38,6 +40,8 @@ internal fun InputPhoneNumberScreen(
     navController: NavController,
     inputPhoneNumberViewModel: InputPhoneNumberViewModel = koinViewModel()
 ) {
+    LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+
     val checkPhoneNumberLength = remember {
         mutableStateOf(false)
     }

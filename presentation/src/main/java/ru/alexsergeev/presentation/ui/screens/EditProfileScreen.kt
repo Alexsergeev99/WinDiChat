@@ -1,5 +1,6 @@
 package ru.alexsergeev.presentation.ui.screens
 
+import android.content.pm.ActivityInfo
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -26,6 +27,7 @@ import ru.alexsergeev.presentation.ui.components.RemoveProfileButton
 import ru.alexsergeev.presentation.ui.components.Search
 import ru.alexsergeev.presentation.ui.components.TextArea
 import ru.alexsergeev.presentation.ui.components.UserAvatar
+import ru.alexsergeev.presentation.utils.LockScreenOrientation
 import ru.alexsergeev.presentation.viewmodel.UserProfileViewModel
 
 @Composable
@@ -33,6 +35,7 @@ internal fun EditProfileScreen(
     navController: NavController,
     userProfileViewModel: UserProfileViewModel = koinViewModel()
 ) {
+    LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
     val user by userProfileViewModel.getUserData().collectAsStateWithLifecycle()
 

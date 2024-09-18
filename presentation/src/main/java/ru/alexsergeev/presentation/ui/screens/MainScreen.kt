@@ -1,5 +1,6 @@
 package ru.alexsergeev.presentation.ui.screens
 
+import android.content.pm.ActivityInfo
 import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -31,6 +32,7 @@ import ru.alexsergeev.presentation.states.MainScreenState
 import ru.alexsergeev.presentation.theme.WinDiTheme
 import ru.alexsergeev.presentation.ui.components.ChannelListItem
 import ru.alexsergeev.presentation.ui.components.Search
+import ru.alexsergeev.presentation.utils.LockScreenOrientation
 import ru.alexsergeev.presentation.viewmodel.MainScreenViewModel
 
 @Composable
@@ -38,6 +40,8 @@ internal fun MainScreen(
     navController: NavController,
     mainScreenViewModel: MainScreenViewModel = koinViewModel()
 ) {
+    LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+
     val uiState = mainScreenViewModel.uiState.collectAsStateWithLifecycle(MainScreenState.Loading)
     val textState = remember { mutableStateOf(TextFieldValue("")) }
 

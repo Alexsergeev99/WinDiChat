@@ -1,5 +1,6 @@
 package ru.alexsergeev.presentation.ui.screens
 
+import android.content.pm.ActivityInfo
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -27,9 +28,11 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import kotlinx.coroutines.delay
 import ru.alexsergeev.presentation.R
 import ru.alexsergeev.presentation.theme.WinDiTheme
+import ru.alexsergeev.presentation.utils.LockScreenOrientation
 
 @Composable
 fun SplashScreen(navController: NavController) {
+    LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
     val alpha = remember {
         Animatable(0f)

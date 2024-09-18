@@ -1,5 +1,6 @@
 package ru.alexsergeev.presentation.ui.screens
 
+import android.content.pm.ActivityInfo
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -30,6 +31,7 @@ import ru.alexsergeev.presentation.ui.components.AvatarWithEdit
 import ru.alexsergeev.presentation.ui.components.EditProfileButtonChanger
 import ru.alexsergeev.presentation.ui.components.Search
 import ru.alexsergeev.presentation.ui.components.TextArea
+import ru.alexsergeev.presentation.utils.LockScreenOrientation
 import ru.alexsergeev.presentation.utils.rememberImeState
 import ru.alexsergeev.presentation.viewmodel.UserProfileViewModel
 
@@ -38,6 +40,8 @@ internal fun RegistrationScreen(
     navController: NavController,
     userProfileViewModel: UserProfileViewModel = koinViewModel()
 ) {
+    LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+
     val needToEdit = remember {
         mutableStateOf(false)
     }

@@ -1,5 +1,6 @@
 package ru.alexsergeev.presentation.ui.screens
 
+import android.content.pm.ActivityInfo
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,11 +22,13 @@ import androidx.navigation.NavController
 import ru.alexsergeev.presentation.R
 import ru.alexsergeev.presentation.theme.WinDiTheme
 import ru.alexsergeev.presentation.ui.components.ButtonsInRemoveProfileScreen
+import ru.alexsergeev.presentation.utils.LockScreenOrientation
 
 @Composable
 internal fun RemoveProfileScreen(
     navController: NavController,
 ) {
+    LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
     Column(
         modifier = Modifier

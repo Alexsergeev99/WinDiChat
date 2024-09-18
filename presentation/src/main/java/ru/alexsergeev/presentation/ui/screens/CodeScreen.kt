@@ -1,6 +1,7 @@
 package ru.alexsergeev.presentation.ui.screens
 
 import android.annotation.SuppressLint
+import android.content.pm.ActivityInfo
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,6 +35,7 @@ import ru.alexsergeev.presentation.navigation.WinDiTopBar
 import ru.alexsergeev.presentation.theme.WinDiTheme
 import ru.alexsergeev.presentation.ui.components.OtpTextField
 import ru.alexsergeev.presentation.ui.components.SimpleTextButton
+import ru.alexsergeev.presentation.utils.LockScreenOrientation
 import ru.alexsergeev.presentation.viewmodel.CodeScreenViewModel
 
 @SuppressLint("StateFlowValueCalledInComposition")
@@ -42,6 +44,7 @@ internal fun CodeScreen(
     navController: NavController,
     codeScreenViewModel: CodeScreenViewModel = koinViewModel()
 ) {
+    LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
     val codeValue = rememberSaveable {
         mutableStateOf("")
