@@ -1,13 +1,16 @@
 package ru.alexsergeev.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.alexsergeev.domain.usecases.interfaces.GetUserProfileUseCase
+import ru.alexsergeev.domain.usecases.interfaces.SendCodeUseCase
 import ru.alexsergeev.domain.usecases.interfaces.SetUserProfileUseCase
 import ru.alexsergeev.presentation.models.FullName
 import ru.alexsergeev.presentation.models.Phone
@@ -21,8 +24,12 @@ internal class InputPhoneNumberViewModel(
     private val getUserProfileUseCase: GetUserProfileUseCase,
     private val domainUserToUiUserMapper: DomainUserToUiUserMapper,
     private val setUserProfileUseCase: SetUserProfileUseCase,
+    private val sendCodeUseCase: SendCodeUseCase,
     private val uiUserToDomainUserMapper: UiUserToDomainUserMapper
 ) : ViewModel() {
+
+    private val sendCodeStatusMutable = MutableStateFlow<Boolean>(false)
+    private val sendCodeStatus: StateFlow<Boolean> = sendCodeStatusMutable
 
     private val userDataMutable = MutableStateFlow(
         UserUiModel(
@@ -62,6 +69,22 @@ internal class InputPhoneNumberViewModel(
             throw e
         }
     }
+
+    fun sendCodeAndUpdateStatus(phone: String): Boolean {
+        viewModelScope.launch {
+            sendCodeUseCase.invoke(phone)
+                .catch { e ->
+                    Log.e("SendCodeError", "Exception: ${e.message}")
+                    emit(false)
+                }
+                .collect { result ->
+                    sendCodeStatusMutable.value = result
+                }
+        }
+        return sendCodeStatus.value
+    }
+
+    fun getSendCodeStatus() = sendCodeStatus
 
     fun checkPhoneLength(length: Int): Boolean = length == PHONE_NUMBER_LENGTH
 }

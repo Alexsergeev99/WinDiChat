@@ -8,6 +8,6 @@ interface GetAllChatsUseCase {
     fun invoke(): Flow<List<ChatDomainModel>>
 }
 
-interface SendMessageUseCase {
-    suspend fun invoke(message: MessageDomainModel)
+interface SendCodeUseCase {
+    fun invoke(phone: String): Flow<Boolean>
 }

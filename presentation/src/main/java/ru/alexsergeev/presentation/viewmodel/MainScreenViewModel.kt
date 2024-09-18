@@ -20,7 +20,6 @@ import ru.alexsergeev.presentation.models.MessageUiModel
 import ru.alexsergeev.presentation.models.Phone
 import ru.alexsergeev.presentation.models.UserUiModel
 import ru.alexsergeev.presentation.states.MainScreenState
-import ru.alexsergeev.presentation.states.MessagesListState
 import ru.alexsergeev.presentation.utils.mappers.DomainChatToUiChatMapper
 import ru.alexsergeev.presentation.utils.mappers.DomainMessageToUiMessageMapper
 import ru.alexsergeev.presentation.utils.mappers.DomainUserToUiUserMapper
@@ -34,7 +33,7 @@ internal class MainScreenViewModel(
     private val domainUserToUiUserMapper: DomainUserToUiUserMapper,
     private val domainChatToUiChatMapper: DomainChatToUiChatMapper,
     private val domainMessageToUiMessageMapper: DomainMessageToUiMessageMapper,
-    ) : ViewModel() {
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow<MainScreenState>(MainScreenState.Loading)
     val uiState = _uiState.asStateFlow()
@@ -73,8 +72,8 @@ internal class MainScreenViewModel(
     init {
         getAllUsersFlow()
         getAllChatsFlow()
-        setFilteredChatsList()
         getAllMessagesFlow()
+        setFilteredChatsList()
     }
 
     private fun getAllUsersFlow() {
@@ -107,37 +106,32 @@ internal class MainScreenViewModel(
         }
     }
 
-
     fun setFilteredChatsList() {
         viewModelScope.launch {
-            Log.d("test", filteredChatsMutable.value.toString())
             _uiState.value = MainScreenState.Loading
-            Log.d("test1", filteredChatsMutable.value.toString())
+            delay(1000)
             try {
-                Log.d("test2", filteredChatsMutable.value.toString())
-                filteredChatsMutable.value = if (searchedText.value.isBlank()) {
+                val resultList = mutableListOf<ChatUiModel>()
+                chats.value.forEach { chat ->
+                    if (getUserById(chat.secondUserId).value.name.firstName.lowercase(Locale.getDefault())
+                            .contains(searchedText.value.lowercase(Locale.getDefault())) ||
+                        getUserById(chat.secondUserId).value.name.secondName.lowercase(Locale.getDefault())
+                            .contains(searchedText.value.lowercase(Locale.getDefault()))
+                    ) {
+                        resultList.add(chat)
+                    }
+                }
+
+                filteredChatsMutable.value = if (searchedText.value.isEmpty()) {
                     chats.value.toMutableList()
                 } else {
-                    val resultList = mutableListOf<ChatUiModel>()
-                    Log.d("test3", filteredChatsMutable.value.toString())
-                    chats.value.forEach { chat ->
-                        if (getUserById(chat.secondUserId).value.name.firstName.lowercase(Locale.getDefault())
-                                .contains(searchedText.value.lowercase(Locale.getDefault())) ||
-                            getUserById(chat.secondUserId).value.name.secondName.lowercase(Locale.getDefault())
-                                .contains(searchedText.value.lowercase(Locale.getDefault()))
-                        ) {
-                            resultList.add(chat)
-                        }
-                        Log.d("test6", filteredChatsMutable.value.toString())
-                        if (resultList.isEmpty()) {
-                        _uiState.value = MainScreenState.EmptyList
-                    } else {
-                            Log.d("test4", filteredChatsMutable.value.toString())
-                            _uiState.value = MainScreenState.Success(filteredChats.value)
-                            Log.d("test5", filteredChatsMutable.value.toString())
-                        }
-                    }
                     resultList
+                }
+
+                if (resultList.isEmpty()) {
+                    _uiState.value = MainScreenState.EmptyList
+                } else {
+                    _uiState.value = MainScreenState.Success(filteredChats.value)
                 }
             } catch (e: Exception) {
                 _uiState.value = MainScreenState.Error("Exception")

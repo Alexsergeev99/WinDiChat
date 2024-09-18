@@ -51,7 +51,6 @@ internal fun Search(
     onTextChange: (String) -> Unit = {},
     text: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) }
 ) {
-    val focusManager = LocalFocusManager.current
     Row(
         modifier = Modifier
             .padding(vertical = padding)
