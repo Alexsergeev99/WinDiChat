@@ -14,3 +14,7 @@ data class RegisterRequest(
     val name: String,
     val username: String,
 )
+
+data class RefreshCodeRequest(
+    val refresh_token: String
+)

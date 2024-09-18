@@ -13,25 +13,29 @@ import ru.alexsergeev.data.BuildConfig
 import ru.alexsergeev.data.models.CodeRequest
 import ru.alexsergeev.data.models.GetUserResponse
 import ru.alexsergeev.data.models.PhoneRequest
+import ru.alexsergeev.data.models.RefreshCodeRequest
 import ru.alexsergeev.data.models.RegisterRequest
 import ru.alexsergeev.data.models.RegisterResponse
 import ru.alexsergeev.data.models.SendCodeResponse
 import ru.alexsergeev.data.models.VerifyCodeResponse
 import java.util.concurrent.TimeUnit
 
-internal const val BASE_URL = "https://plannerok.ru/"
+internal const val BASE_URL = "https://plannerok.ru/api/v1/users/"
 
 internal interface ApiService {
-    @POST("api/v1/users/send-auth-code/")
+    @POST("send-auth-code/")
     suspend fun sendCode(@Body phoneRequest: PhoneRequest): Response<SendCodeResponse>
 
-    @POST("api/v1/users/check-auth-code/")
+    @POST("check-auth-code/")
     suspend fun verifyCode(@Body codeRequest: CodeRequest): Response<VerifyCodeResponse>
 
-    @POST("api/v1/users/register/")
+    @POST("register/")
     suspend fun registerUser(@Body registerRequest: RegisterRequest): Response<RegisterResponse>
 
-    @GET("api/v1/users/me/")
+    @POST("refresh-token/")
+    suspend fun refreshToken(@Body refreshTokenRequest: RefreshCodeRequest): Response<RegisterResponse>
+
+    @GET("me/")
     suspend fun getUser(@Header("Authorization") access_token: String): Response<GetUserResponse>
 }
 

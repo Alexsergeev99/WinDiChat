@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.update
 import ru.alexsergeev.data.api.ApiService
 import ru.alexsergeev.data.models.CodeRequest
 import ru.alexsergeev.data.models.PhoneRequest
+import ru.alexsergeev.data.models.RefreshCodeRequest
 import ru.alexsergeev.data.models.RegisterRequest
 import ru.alexsergeev.data.prefs.SharedPreferencesManager
 import ru.alexsergeev.data.utils.DataUserToDomainUserMapper
@@ -39,17 +40,23 @@ internal class UserProfileRepositoryImpl(
     override fun getUserData(): Flow<UserDomainModel> = flow {
         try {
             val response = apiService.getUser(sharedPreferencesManager.getToken() ?: "")
+            if(response.code() == 401) {
+                refreshToken()
+            }
             if (response.isSuccessful) {
                 response.body()?.let { apiResponse ->
                     emit(dataUserToDomainUserMapper.map(apiResponse))
-                }
+                } ?: emit(userDataMutable.value)
             } else {
                 Log.e("API Error", "Code: ${response.code()}, Message: ${response.message()}")
+                emit(userDataMutable.value)
             }
         } catch (e: IOException) {
             Log.e("Network Error", "IOException: ${e.message}")
+            emit(userDataMutable.value)
         } catch (e: Exception) {
             Log.e("Unknown Error", "Exception: ${e.message}")
+            emit(userDataMutable.value)
         }
     }
 
@@ -66,7 +73,9 @@ internal class UserProfileRepositoryImpl(
     override fun verifyCode(phone: String, code: String): Flow<Boolean> = flow {
         try {
             val response = apiService.verifyCode(CodeRequest(phone, code))
-            response.body()?.let { sharedPreferencesManager.saveToken(it.access_token) }
+            if(response.code() == 401) {
+                refreshToken()
+            }
             if (response.isSuccessful) {
                 response.body()?.let { apiResponse ->
                     emit(apiResponse.is_user_exists)
@@ -75,6 +84,7 @@ internal class UserProfileRepositoryImpl(
                 Log.e("API Error", "Code: ${response.code()}, Message: ${response.message()}")
                 emit(false)
             }
+            response.body()?.let { sharedPreferencesManager.saveToken(it.access_token) }
         } catch (e: IOException) {
             Log.e("Network Error", "IOException: ${e.message}")
             emit(false)
@@ -104,13 +114,20 @@ internal class UserProfileRepositoryImpl(
         }
     }
 
+    override suspend fun refreshToken() {
+        apiService.refreshToken(RefreshCodeRequest(sharedPreferencesManager.getToken().toString()))
+    }
+
     override suspend fun registerUser(phone: String, name: String, username: String) {
         try {
             val response = apiService.registerUser(RegisterRequest(phone, name, username))
-            response.body()?.let { sharedPreferencesManager.saveToken(it.access_token) }
+            if(response.code() == 401) {
+                refreshToken()
+            }
             if (!response.isSuccessful) {
                 Log.e("API Error", "Code: ${response.code()}, Message: ${response.message()}")
             }
+            response.body()?.let { sharedPreferencesManager.saveToken(it.access_token) }
         } catch (e: IOException) {
             Log.e("Network Error", "IOException: ${e.message}")
         } catch (e: Exception) {

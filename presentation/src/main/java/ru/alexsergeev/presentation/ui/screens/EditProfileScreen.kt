@@ -37,7 +37,7 @@ internal fun EditProfileScreen(
 ) {
     LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
-    val user by userProfileViewModel.getUserDataWithoutApi().collectAsStateWithLifecycle()
+    val user by userProfileViewModel.getUserData().collectAsStateWithLifecycle()
 
     Column(modifier = Modifier.fillMaxSize()) {
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
