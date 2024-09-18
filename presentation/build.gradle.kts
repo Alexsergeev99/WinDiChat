@@ -69,5 +69,6 @@ dependencies {
     implementation(libs.stream.chat.android.ui.components)
     implementation(libs.library)
     implementation(libs.androidx.work.runtime)
+    implementation(libs.accompanist.swiperefresh)
     implementation(project(":domain"))
 }

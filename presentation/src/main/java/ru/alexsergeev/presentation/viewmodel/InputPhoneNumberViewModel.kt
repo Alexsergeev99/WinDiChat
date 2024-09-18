@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import ru.alexsergeev.domain.usecases.interfaces.GetUserProfileUseCase
+import ru.alexsergeev.domain.usecases.interfaces.GetUserProfileWithoutApiUseCase
 import ru.alexsergeev.domain.usecases.interfaces.SendCodeUseCase
 import ru.alexsergeev.domain.usecases.interfaces.SetUserProfileUseCase
 import ru.alexsergeev.presentation.models.FullName
@@ -22,7 +22,7 @@ import ru.alexsergeev.presentation.utils.mappers.UiUserToDomainUserMapper
 private const val PHONE_NUMBER_LENGTH = 10
 
 internal class InputPhoneNumberViewModel(
-    private val getUserProfileUseCase: GetUserProfileUseCase,
+    private val getUserProfileWithoutApiUseCase: GetUserProfileWithoutApiUseCase,
     private val domainUserToUiUserMapper: DomainUserToUiUserMapper,
     private val setUserProfileUseCase: SetUserProfileUseCase,
     private val sendCodeUseCase: SendCodeUseCase,
@@ -51,7 +51,7 @@ internal class InputPhoneNumberViewModel(
     fun getUserData(): StateFlow<UserUiModel> {
         try {
             viewModelScope.launch {
-                val user = getUserProfileUseCase.invoke().last()
+                val user = getUserProfileWithoutApiUseCase.invoke().last()
                 userDataMutable.update { domainUserToUiUserMapper.map(user) }
             }
             return userData

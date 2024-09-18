@@ -2,6 +2,7 @@
 accompanistCoil = "0.3.3.1"
 agp = "8.4.0"
 amitySdk = "5.4.0"
+accompanistSwiperefresh = "0.24.13-rc"
 converterGson = "2.10.0"
 gson = "2.10.1"
 coilCompose = "2.7.0"
@@ -33,6 +34,7 @@ workRuntime = "2.9.1"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-work-runtime = { module = "androidx.work:work-runtime", version.ref = "workRuntime" }
+accompanist-swiperefresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "accompanistSwiperefresh" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }

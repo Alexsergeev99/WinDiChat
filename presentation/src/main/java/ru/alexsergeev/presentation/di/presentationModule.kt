@@ -11,6 +11,7 @@ import ru.alexsergeev.presentation.utils.mappers.UiMessageToDomainMessageMapper
 import ru.alexsergeev.presentation.utils.mappers.UiUserToDomainUserMapper
 import ru.alexsergeev.presentation.viewmodel.CodeScreenViewModel
 import ru.alexsergeev.presentation.viewmodel.InputPhoneNumberViewModel
+import ru.alexsergeev.presentation.viewmodel.RegistrationScreenViewModel
 import ru.alexsergeev.presentation.viewmodel.MainScreenViewModel
 import ru.alexsergeev.presentation.viewmodel.MessagesListViewModel
 import ru.alexsergeev.presentation.viewmodel.UserProfileViewModel
@@ -23,6 +24,7 @@ val presentationModule = module {
     viewModelOf(::MainScreenViewModel)
     viewModelOf(::UserProfileViewModel)
     viewModelOf(::MessagesListViewModel)
+    viewModelOf(::RegistrationScreenViewModel)
 
     singleOf(::DomainUserToUiUserMapper)
     singleOf(::UiUserToDomainUserMapper)

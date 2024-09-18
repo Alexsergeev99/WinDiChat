@@ -1,7 +1,6 @@
 package ru.alexsergeev.presentation.ui.screens
 
 import android.content.pm.ActivityInfo
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,6 +25,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import org.koin.androidx.compose.koinViewModel
 import ru.alexsergeev.presentation.R
 import ru.alexsergeev.presentation.states.MainScreenState
@@ -44,6 +45,8 @@ internal fun MainScreen(
 
     val uiState = mainScreenViewModel.uiState.collectAsStateWithLifecycle(MainScreenState.Loading)
     val textState = remember { mutableStateOf(TextFieldValue("")) }
+    val isLoading by mainScreenViewModel.isLoading().collectAsStateWithLifecycle()
+    val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = isLoading)
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -74,7 +77,12 @@ internal fun MainScreen(
             when (val current = uiState.value) {
                 is MainScreenState.Loading -> CircularProgressIndicator()
 
-                is MainScreenState.Success -> {
+                is MainScreenState.Success -> SwipeRefresh(
+                    state = swipeRefreshState,
+                    onRefresh = {
+                        mainScreenViewModel.loadStuffAfterSwipe()
+                    },
+                ) {
                     LazyColumn(Modifier.fillMaxSize()) {
                         current.chats.forEach {
                             item {
@@ -101,7 +109,7 @@ internal fun MainScreen(
 
                 is MainScreenState.Error -> {
                     ErrorScreen {
-
+                        mainScreenViewModel.setFilteredChatsList()
                     }
                 }
             }

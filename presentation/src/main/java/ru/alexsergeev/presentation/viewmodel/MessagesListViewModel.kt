@@ -14,6 +14,7 @@ import ru.alexsergeev.domain.usecases.interfaces.GetAllMessagesUseCase
 import ru.alexsergeev.domain.usecases.interfaces.GetAllUsersUseCase
 import ru.alexsergeev.domain.usecases.interfaces.GetUserByIdUseCase
 import ru.alexsergeev.domain.usecases.interfaces.GetUserProfileUseCase
+import ru.alexsergeev.domain.usecases.interfaces.GetUserProfileWithoutApiUseCase
 import ru.alexsergeev.domain.usecases.interfaces.SendMessageUseCase
 import ru.alexsergeev.presentation.models.FullName
 import ru.alexsergeev.presentation.models.MessageUiModel
@@ -28,7 +29,7 @@ internal class MessagesListViewModel(
     private val getAllUsersUseCase: GetAllUsersUseCase,
     private val getAllMessagesUseCase: GetAllMessagesUseCase,
     private val getUserByIdUseCase: GetUserByIdUseCase,
-    private val getUserProfileUseCase: GetUserProfileUseCase,
+    private val getUserProfileWithoutApiUseCase: GetUserProfileWithoutApiUseCase,
     private val sendMessageUseCase: SendMessageUseCase,
     private val domainUserToUiUserMapper: DomainUserToUiUserMapper,
     private val domainMessageToUiMessageMapper: DomainMessageToUiMessageMapper,
@@ -116,7 +117,7 @@ internal class MessagesListViewModel(
     fun getUserData(): StateFlow<UserUiModel> {
         try {
             viewModelScope.launch {
-                val user = getUserProfileUseCase.invoke().last()
+                val user = getUserProfileWithoutApiUseCase.invoke().last()
                 userDataMutable.update { domainUserToUiUserMapper.map(user) }
             }
             return userData

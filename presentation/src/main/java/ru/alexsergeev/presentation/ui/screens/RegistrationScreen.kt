@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -27,25 +28,27 @@ import org.koin.androidx.compose.koinViewModel
 import ru.alexsergeev.presentation.R
 import ru.alexsergeev.presentation.models.FullName
 import ru.alexsergeev.presentation.navigation.WinDiTopBar
+import ru.alexsergeev.presentation.theme.WinDiTheme
 import ru.alexsergeev.presentation.ui.components.AvatarWithEdit
 import ru.alexsergeev.presentation.ui.components.EditProfileButtonChanger
 import ru.alexsergeev.presentation.ui.components.Search
 import ru.alexsergeev.presentation.ui.components.TextArea
 import ru.alexsergeev.presentation.utils.LockScreenOrientation
 import ru.alexsergeev.presentation.utils.rememberImeState
+import ru.alexsergeev.presentation.viewmodel.RegistrationScreenViewModel
 import ru.alexsergeev.presentation.viewmodel.UserProfileViewModel
 
 @Composable
 internal fun RegistrationScreen(
     navController: NavController,
-    userProfileViewModel: UserProfileViewModel = koinViewModel()
+    registrationScreenViewModel: RegistrationScreenViewModel = koinViewModel()
 ) {
     LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
     val needToEdit = remember {
         mutableStateOf(false)
     }
-    val user = userProfileViewModel.getUserData().collectAsStateWithLifecycle().value
+    val user = registrationScreenViewModel.getUserDataWithoutApi().collectAsStateWithLifecycle().value
     val startedAvatar = stringResource(id = R.string.mock_user_avatar)
     val changedAvatar = "https://www.1zoom.me/big2/62/199578-yana.jpg"
 
@@ -66,7 +69,7 @@ internal fun RegistrationScreen(
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().weight(1f),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             WinDiTopBar(
@@ -90,7 +93,7 @@ internal fun RegistrationScreen(
                         needToEdit.value = !needToEdit.value
                         when (needToEdit.value) {
                             true -> {
-                                userProfileViewModel.setUserData(
+                                registrationScreenViewModel.setUserData(
                                     user.copy(
                                         avatar = startedAvatar
                                     )
@@ -98,7 +101,7 @@ internal fun RegistrationScreen(
                             }
 
                             else -> {
-                                userProfileViewModel.setUserData(
+                                registrationScreenViewModel.setUserData(
                                     user.copy(
                                         avatar = changedAvatar
                                     )
@@ -107,12 +110,18 @@ internal fun RegistrationScreen(
                         }
                     }
                 )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "${user.phone.countryCode}${user.phone.basicNumber}",
+                    style = WinDiTheme.typography.subheading1
+                )
+                Spacer(modifier = Modifier.height(8.dp))
                 Search(
                     hint = "Имя",
                     isSearch = false,
                     padding = 6.dp,
                     onTextChange = {
-                        userProfileViewModel.setUserData(
+                        registrationScreenViewModel.setUserData(
                             user.copy(
                                 name = FullName(
                                     it,
@@ -127,7 +136,7 @@ internal fun RegistrationScreen(
                     isSearch = false,
                     padding = 6.dp,
                     onTextChange = {
-                        userProfileViewModel.setUserData(
+                        registrationScreenViewModel.setUserData(
                             user.copy(
                                 name = FullName(user.name.firstName, it)
                             )
@@ -139,7 +148,7 @@ internal fun RegistrationScreen(
                     isSearch = false,
                     padding = 6.dp,
                     onTextChange = {
-                        userProfileViewModel.setUserData(
+                        registrationScreenViewModel.setUserData(
                             user.copy(
                                 username = it
                             )
@@ -151,7 +160,7 @@ internal fun RegistrationScreen(
                     isSearch = false,
                     padding = 6.dp,
                     onTextChange = {
-                        userProfileViewModel.setUserData(
+                        registrationScreenViewModel.setUserData(
                             user.copy(
                                 city = it
                             )
@@ -161,7 +170,7 @@ internal fun RegistrationScreen(
                 TextArea(
                     hint = "Расскажи о себе",
                     onTextChange = {
-                        userProfileViewModel.setUserData(
+                        registrationScreenViewModel.setUserData(
                             user.copy(
                                 info = it
                             )

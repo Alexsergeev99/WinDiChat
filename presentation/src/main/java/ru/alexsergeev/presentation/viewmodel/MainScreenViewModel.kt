@@ -69,6 +69,9 @@ internal class MainScreenViewModel(
     private val searchedTextMutable = MutableStateFlow<String>("")
     private val searchedText: StateFlow<String> = searchedTextMutable
 
+    private val isLoadingMutable = MutableStateFlow(false)
+    private val isLoading = isLoadingMutable.asStateFlow()
+
     init {
         getAllUsersFlow()
         getAllChatsFlow()
@@ -103,6 +106,19 @@ internal class MainScreenViewModel(
             } catch (e: Exception) {
                 throw e
             }
+        }
+    }
+
+    fun loadStuffAfterSwipe() {
+        try {
+            viewModelScope.launch {
+                isLoadingMutable.value = true
+                delay(2000L)
+                setFilteredChatsList()
+                isLoadingMutable.value = false
+            }
+        } catch (e: Exception) {
+            throw e
         }
     }
 
@@ -174,5 +190,7 @@ internal class MainScreenViewModel(
     fun getAllChats(): StateFlow<List<ChatUiModel>> = chats
     fun getFilteredChatList(): StateFlow<List<ChatUiModel>> = filteredChats
     fun getAllMessages(): StateFlow<List<MessageUiModel>> = messages
+    fun isLoading() = isLoading
+
 
 }

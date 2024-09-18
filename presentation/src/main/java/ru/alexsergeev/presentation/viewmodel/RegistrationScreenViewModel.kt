@@ -17,30 +17,13 @@ import ru.alexsergeev.presentation.models.UserUiModel
 import ru.alexsergeev.presentation.utils.mappers.DomainUserToUiUserMapper
 import ru.alexsergeev.presentation.utils.mappers.UiUserToDomainUserMapper
 
-internal class UserProfileViewModel(
-    private val getUserProfileUseCase: GetUserProfileUseCase,
+internal class RegistrationScreenViewModel(
     private val getUserProfileWithoutApiUseCase: GetUserProfileWithoutApiUseCase,
     private val domainUserToUiUserMapper: DomainUserToUiUserMapper,
     private val setUserProfileUseCase: SetUserProfileUseCase,
     private val registerUserUseCase: RegisterUserUseCase,
     private val uiUserToDomainUserMapper: UiUserToDomainUserMapper
 ) : ViewModel() {
-
-    private val userDataMutable = MutableStateFlow(
-        UserUiModel(
-            id = 1,
-            name = FullName(
-                firstName = "",
-                secondName = ""
-            ),
-            phone = Phone(
-                countryCode = "",
-                basicNumber = ""
-            ),
-            avatar = "",
-        )
-    )
-    private val userData: StateFlow<UserUiModel> = userDataMutable
 
     private val userDataWithoutApiMutable = MutableStateFlow(
         UserUiModel(
@@ -57,18 +40,6 @@ internal class UserProfileViewModel(
         )
     )
     private val userDataWithoutApi: StateFlow<UserUiModel> = userDataWithoutApiMutable
-
-    fun getUserData(): StateFlow<UserUiModel> {
-        try {
-            viewModelScope.launch {
-                val user = getUserProfileUseCase.invoke().last()
-                userDataMutable.update { domainUserToUiUserMapper.map(user) }
-            }
-            return userData
-        } catch (e: Exception) {
-            throw e
-        }
-    }
 
     fun getUserDataWithoutApi(): StateFlow<UserUiModel> {
         try {

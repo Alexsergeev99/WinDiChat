@@ -6,9 +6,12 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import ru.alexsergeev.data.BuildConfig
 import ru.alexsergeev.data.models.CodeRequest
+import ru.alexsergeev.data.models.GetUserResponse
 import ru.alexsergeev.data.models.PhoneRequest
 import ru.alexsergeev.data.models.RegisterRequest
 import ru.alexsergeev.data.models.RegisterResponse
@@ -27,6 +30,9 @@ internal interface ApiService {
 
     @POST("api/v1/users/register/")
     suspend fun registerUser(@Body registerRequest: RegisterRequest): Response<RegisterResponse>
+
+    @GET("api/v1/users/me/")
+    suspend fun getUser(@Header("Authorization") access_token: String): Response<GetUserResponse>
 }
 
 internal fun provideOkHttpClient() = if (BuildConfig.DEBUG) {

@@ -39,7 +39,7 @@ internal fun UserProfileScreen(
 ) {
     LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
-    val user by userProfileViewModel.getUserData().collectAsStateWithLifecycle()
+    val user by userProfileViewModel.getUserDataWithoutApi().collectAsStateWithLifecycle()
 
     Box(
         modifier = Modifier

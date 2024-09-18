@@ -15,6 +15,7 @@ import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import ru.alexsergeev.presentation.models.UserUiModel
+import ru.alexsergeev.presentation.viewmodel.RegistrationScreenViewModel
 import ru.alexsergeev.presentation.viewmodel.UserProfileViewModel
 
 private const val TOAST_NO_NAME_TEXT = "К нам без имени нельзя:("
@@ -22,12 +23,12 @@ private const val TOAST_NO_NAME_TEXT = "К нам без имени нельзя
 @Composable
 internal fun EditProfileButtonChanger(
     navController: NavController,
-    userProfileViewModel: UserProfileViewModel = koinViewModel(),
+    registrationScreenViewModel: RegistrationScreenViewModel = koinViewModel(),
 ) {
 
     val ctx = LocalContext.current
     val focusManager = LocalFocusManager.current
-    val user by userProfileViewModel.getUserData().collectAsStateWithLifecycle()
+    val user by registrationScreenViewModel.getUserDataWithoutApi().collectAsStateWithLifecycle()
 
     if (user.name.firstName.isNotEmpty()) {
         SimpleButton(
@@ -37,7 +38,7 @@ internal fun EditProfileButtonChanger(
             text = "Сохранить",
             padding = 30.dp,
             onClick = {
-                userProfileViewModel.registerUser(user)
+                registrationScreenViewModel.registerUser(user)
                 focusManager.clearFocus()
                 navController.navigate("code_screen")
             }

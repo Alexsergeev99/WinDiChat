@@ -57,7 +57,7 @@ internal fun MessageList(
 
             is MessagesListState.Error -> {
                 ErrorScreen {
-
+                    messagesListViewModel.getAllMessages()
                 }
             }
         }

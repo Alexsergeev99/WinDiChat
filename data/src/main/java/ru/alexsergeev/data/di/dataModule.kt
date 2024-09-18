@@ -6,6 +6,8 @@ import org.koin.dsl.module
 import ru.alexsergeev.data.api.provideApiService
 import ru.alexsergeev.data.api.provideOkHttpClient
 import ru.alexsergeev.data.api.provideRetrofit
+import ru.alexsergeev.data.prefs.SharedPreferencesManager
+import ru.alexsergeev.data.utils.DataUserToDomainUserMapper
 import ru.alexsergeev.data.repository.ChatsRepositoryImpl
 import ru.alexsergeev.data.repository.MessageRepositoryImpl
 import ru.alexsergeev.data.repository.UserProfileRepositoryImpl
@@ -19,7 +21,10 @@ val dataModule = module {
     singleOf(::ChatsRepositoryImpl) bind ChatsRepository::class
     singleOf(::MessageRepositoryImpl) bind MessageRepository::class
 
+    singleOf(::DataUserToDomainUserMapper)
+
     single { provideOkHttpClient() }
     single { provideRetrofit(get()) }
     single { provideApiService(get()) }
+    single { SharedPreferencesManager(get()) }
 }

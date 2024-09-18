@@ -17,9 +17,3 @@ internal class GetAllChatsUseCaseImpl(
 ) : GetAllChatsUseCase {
     override fun invoke(): Flow<List<ChatDomainModel>> = repository.getAllChats()
 }
-
-internal class RegisterUserUseCaseImpl(
-    private val repository: UserProfileRepository
-) : RegisterUserUseCase {
-    override suspend fun invoke(phone: String, name: String, username: String) = repository.registerUser(phone, name, username)
-}
