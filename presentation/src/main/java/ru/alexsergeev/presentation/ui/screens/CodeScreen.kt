@@ -1,6 +1,7 @@
 package ru.alexsergeev.presentation.ui.screens
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,17 +13,21 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import ru.alexsergeev.presentation.R
 import ru.alexsergeev.presentation.navigation.WinDiTopBar
@@ -41,8 +46,32 @@ internal fun CodeScreen(
     val codeValue = rememberSaveable {
         mutableStateOf("")
     }
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+
+    val isCodeValid by codeScreenViewModel.validateCode().collectAsStateWithLifecycle()
+
     val focusManager = LocalFocusManager.current
     val user by codeScreenViewModel.getUserData().collectAsStateWithLifecycle()
+
+    val onValidateCode = {
+        if (codeValue.value.length == 6) {
+            scope.launch {
+                codeScreenViewModel.validateCodeFlow(
+                    "${user.phone.countryCode}${user.phone.basicNumber}",
+                    codeValue.value.toString()
+                )
+            }
+        } else {
+            Toast.makeText(context, "Код должен содержать 6 цифр", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    LaunchedEffect(isCodeValid) {
+        if (isCodeValid) {
+            navController.navigate("registration_screen")
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -89,13 +118,7 @@ internal fun CodeScreen(
             onOtpTextChange = { value, _ ->
                 codeValue.value = value
                 if (codeValue.value.length == 6) {
-                    codeScreenViewModel.validateCodeFlow(
-                        "${user.phone.countryCode}${user.phone.basicNumber}",
-                        (if (codeValue.value.isNotBlank()) codeValue.value.toInt() else 0).toString()
-                    )
-                    if (codeScreenViewModel.validateCode().value) {
-                        navController.navigate("registration_screen")
-                    }
+                    onValidateCode()
                 }
             },
             modifier = Modifier

@@ -3,6 +3,7 @@ package ru.alexsergeev.presentation.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -72,14 +73,16 @@ internal class InputPhoneNumberViewModel(
 
     fun sendCodeAndUpdateStatus(phone: String): Boolean {
         viewModelScope.launch {
-            sendCodeUseCase.invoke(phone)
-                .catch { e ->
-                    Log.e("SendCodeError", "Exception: ${e.message}")
-                    emit(false)
-                }
-                .collect { result ->
-                    sendCodeStatusMutable.value = result
-                }
+            async {
+                sendCodeUseCase.invoke(phone)
+                    .catch { e ->
+                        Log.e("SendCodeError", "Exception: ${e.message}")
+                        emit(false)
+                    }
+                    .collect { result ->
+                        sendCodeStatusMutable.value = result
+                    }
+            }.await()
         }
         return sendCodeStatus.value
     }
