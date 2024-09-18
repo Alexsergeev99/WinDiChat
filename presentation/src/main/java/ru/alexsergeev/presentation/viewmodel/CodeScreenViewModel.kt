@@ -1,9 +1,11 @@
 package ru.alexsergeev.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -39,14 +41,18 @@ internal class CodeScreenViewModel(
     )
     private val userData: StateFlow<UserUiModel> = userDataMutable
     fun validateCode(): StateFlow<Boolean> = codeIsValid
-    fun validateCodeFlow(code: Int) {
-        try {
-            viewModelScope.launch {
-                codeIsValidMutable.value = validateCodeUseCase.invoke(code).last()
-            }
-        } catch (e: Exception) {
-            throw e
+    fun validateCodeFlow(phone: String, code: String): Boolean {
+        viewModelScope.launch {
+            validateCodeUseCase.invoke(phone, code)
+                .catch { e ->
+                    Log.e("SendCodeError", "Exception: ${e.message}")
+                    emit(false)
+                }
+                .collect { result ->
+                    codeIsValidMutable.value = result
+                }
         }
+        return codeIsValid.value
     }
 
     fun getUserData(): StateFlow<UserUiModel> {

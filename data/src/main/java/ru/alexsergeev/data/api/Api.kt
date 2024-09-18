@@ -8,8 +8,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.POST
 import ru.alexsergeev.data.BuildConfig
+import ru.alexsergeev.data.models.CodeRequest
 import ru.alexsergeev.data.models.PhoneRequest
 import ru.alexsergeev.data.models.SendCodeResponse
+import ru.alexsergeev.data.models.VerifyCodeResponse
 import java.util.concurrent.TimeUnit
 
 internal const val BASE_URL = "https://plannerok.ru/"
@@ -17,6 +19,9 @@ internal const val BASE_URL = "https://plannerok.ru/"
 internal interface ApiService {
     @POST("api/v1/users/send-auth-code/")
     suspend fun sendCode(@Body phoneRequest: PhoneRequest): Response<SendCodeResponse>
+
+    @POST("api/v1/users/check-auth-code/")
+    suspend fun verifyCode(@Body codeRequest: CodeRequest): Response<VerifyCodeResponse>
 }
 
 internal fun provideOkHttpClient() = if (BuildConfig.DEBUG) {

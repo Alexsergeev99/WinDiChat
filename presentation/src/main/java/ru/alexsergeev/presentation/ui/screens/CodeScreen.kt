@@ -88,9 +88,14 @@ internal fun CodeScreen(
             otpText = codeValue.value,
             onOtpTextChange = { value, _ ->
                 codeValue.value = value
-                codeScreenViewModel.validateCodeFlow(if (codeValue.value.isNotBlank()) codeValue.value.toInt() else 0)
-                if (codeScreenViewModel.validateCode().value) {
-                    navController.navigate("registration_screen")
+                if (codeValue.value.length == 6) {
+                    codeScreenViewModel.validateCodeFlow(
+                        "${user.phone.countryCode}${user.phone.basicNumber}",
+                        (if (codeValue.value.isNotBlank()) codeValue.value.toInt() else 0).toString()
+                    )
+                    if (codeScreenViewModel.validateCode().value) {
+                        navController.navigate("registration_screen")
+                    }
                 }
             },
             modifier = Modifier
