@@ -1,5 +1,6 @@
 package ru.alexsergeev.data.utils
 
+import ru.alexsergeev.data.entity.UserEntity
 import ru.alexsergeev.data.models.GetUserResponse
 import ru.alexsergeev.domain.models.FullName
 import ru.alexsergeev.domain.models.Phone

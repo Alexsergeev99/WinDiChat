@@ -33,7 +33,9 @@ internal interface ApiService {
     suspend fun registerUser(@Body registerRequest: RegisterRequest): Response<RegisterResponse>
 
     @POST("refresh-token/")
-    suspend fun refreshToken(@Body refreshTokenRequest: RefreshCodeRequest): Response<RegisterResponse>
+    suspend fun refreshToken(
+        @Header("Authorization") access_token: String,
+        @Body refreshTokenRequest: RefreshCodeRequest): Response<RegisterResponse>
 
     @GET("me/")
     suspend fun getUser(@Header("Authorization") access_token: String): Response<GetUserResponse>

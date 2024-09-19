@@ -2,7 +2,6 @@ package ru.alexsergeev.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,7 +12,6 @@ import kotlinx.coroutines.launch
 import ru.alexsergeev.domain.usecases.interfaces.GetAllMessagesUseCase
 import ru.alexsergeev.domain.usecases.interfaces.GetAllUsersUseCase
 import ru.alexsergeev.domain.usecases.interfaces.GetUserByIdUseCase
-import ru.alexsergeev.domain.usecases.interfaces.GetUserProfileUseCase
 import ru.alexsergeev.domain.usecases.interfaces.GetUserProfileWithoutApiUseCase
 import ru.alexsergeev.domain.usecases.interfaces.SendMessageUseCase
 import ru.alexsergeev.presentation.models.FullName
@@ -58,8 +56,10 @@ internal class MessagesListViewModel(
     private val usersMutable = MutableStateFlow<MutableList<UserUiModel>>(mutableListOf())
     private val users: StateFlow<List<UserUiModel>> = usersMutable
 
-    private val messagesMutable = MutableStateFlow<MutableList<MessageUiModel>>(mutableListOf())
-    private val messages: StateFlow<List<MessageUiModel>> = messagesMutable
+    private val _messages = MutableStateFlow<List<MessageUiModel>>(emptyList())
+    private val messagesMutable = mutableListOf<MessageUiModel>()
+    private val messages: StateFlow<List<MessageUiModel>> get() = _messages
+
 
     init {
         getAllUsersFlow()
@@ -88,8 +88,9 @@ internal class MessagesListViewModel(
                 val messagesFlow = getAllMessagesUseCase.invoke()
                 messagesFlow.collect { messages ->
                     messages.forEach { message ->
-                        messagesMutable.value.add(domainMessageToUiMessageMapper.map(message))
+                        messagesMutable.add(domainMessageToUiMessageMapper.map(message))
                     }
+                    _messages.emit(messagesMutable.toList())
                 }
                 if (messages.value.isEmpty()) {
                     _uiState.value = MessagesListState.Error("Exception")
@@ -128,7 +129,9 @@ internal class MessagesListViewModel(
 
     fun sendMessage(message: MessageUiModel) {
         viewModelScope.launch {
-            messagesMutable.value.add(message)
+            messagesMutable.add(message)
+            _messages.emit(messagesMutable.toList())
+            _uiState.value = MessagesListState.Success(messages.value)
             sendMessageUseCase.invoke(uiMessageToDomainMessageMapper.map(message))
         }
     }
