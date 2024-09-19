@@ -2,10 +2,10 @@ package ru.alexsergeev.domain.usecases.interfaces
 
 import ru.alexsergeev.domain.models.UserDomainModel
 
-interface SetUserProfileUseCase {
+interface UpdateUserProfileUseCase {
     suspend fun invoke(userDomainModel: UserDomainModel)
 }
 
-interface SetBasicNumberUseCase {
-    suspend fun invoke(phone: String)
+interface UpdateUserProfileInDatabaseUseCase {
+    suspend fun invoke(userDomainModel: UserDomainModel)
 }

@@ -6,33 +6,42 @@ import org.koin.dsl.module
 import ru.alexsergeev.domain.usecases.implementation.GetAllChatsUseCaseImpl
 import ru.alexsergeev.domain.usecases.implementation.GetAllMessagesUseCaseImpl
 import ru.alexsergeev.domain.usecases.implementation.GetAllUsersUseCaseImpl
+import ru.alexsergeev.domain.usecases.implementation.GetBasicNumberUseCaseImpl
 import ru.alexsergeev.domain.usecases.implementation.GetUseCaseUserProfileWithoutApiImpl
 import ru.alexsergeev.domain.usecases.implementation.GetUserByIdUseCaseImpl
 import ru.alexsergeev.domain.usecases.implementation.GetUserProfileUseCaseImpl
 import ru.alexsergeev.domain.usecases.implementation.RegisterUserUseCaseImpl
 import ru.alexsergeev.domain.usecases.implementation.SendCodeUseCaseImpl
 import ru.alexsergeev.domain.usecases.implementation.SendMessageUseCaseImpl
+import ru.alexsergeev.domain.usecases.implementation.SetBasicNumberUseCaseImpl
 import ru.alexsergeev.domain.usecases.implementation.SetUserProfileUseCaseImpl
+import ru.alexsergeev.domain.usecases.implementation.UpdateUserProfileInDatabaseUseCaseImpl
 import ru.alexsergeev.domain.usecases.implementation.UpdateUserProfileUseCaseImpl
 import ru.alexsergeev.domain.usecases.implementation.ValidateCodeUseCaseImpl
 import ru.alexsergeev.domain.usecases.interfaces.GetAllChatsUseCase
 import ru.alexsergeev.domain.usecases.interfaces.GetAllMessagesUseCase
 import ru.alexsergeev.domain.usecases.interfaces.GetAllUsersUseCase
+import ru.alexsergeev.domain.usecases.interfaces.GetBasicNumberUseCase
 import ru.alexsergeev.domain.usecases.interfaces.GetUserByIdUseCase
 import ru.alexsergeev.domain.usecases.interfaces.GetUserProfileUseCase
 import ru.alexsergeev.domain.usecases.interfaces.GetUserProfileWithoutApiUseCase
 import ru.alexsergeev.domain.usecases.interfaces.RegisterUserUseCase
 import ru.alexsergeev.domain.usecases.interfaces.SendCodeUseCase
 import ru.alexsergeev.domain.usecases.interfaces.SendMessageUseCase
+import ru.alexsergeev.domain.usecases.interfaces.SetBasicNumberUseCase
 import ru.alexsergeev.domain.usecases.interfaces.SetUserProfileUseCase
+import ru.alexsergeev.domain.usecases.interfaces.UpdateUserProfileInDatabaseUseCase
 import ru.alexsergeev.domain.usecases.interfaces.UpdateUserProfileUseCase
 import ru.alexsergeev.domain.usecases.interfaces.ValidateCodeUseCase
 
 val domainModule = module {
 
     factoryOf(::GetUserProfileUseCaseImpl) bind GetUserProfileUseCase::class
+    factoryOf(::GetBasicNumberUseCaseImpl) bind GetBasicNumberUseCase::class
     factoryOf(::SetUserProfileUseCaseImpl) bind SetUserProfileUseCase::class
+    factoryOf(::SetBasicNumberUseCaseImpl) bind SetBasicNumberUseCase::class
     factoryOf(::UpdateUserProfileUseCaseImpl) bind UpdateUserProfileUseCase::class
+    factoryOf(::UpdateUserProfileInDatabaseUseCaseImpl) bind UpdateUserProfileInDatabaseUseCase::class
     factoryOf(::ValidateCodeUseCaseImpl) bind ValidateCodeUseCase::class
     factoryOf(::GetUserByIdUseCaseImpl) bind GetUserByIdUseCase::class
     factoryOf(::GetAllUsersUseCaseImpl) bind GetAllUsersUseCase::class

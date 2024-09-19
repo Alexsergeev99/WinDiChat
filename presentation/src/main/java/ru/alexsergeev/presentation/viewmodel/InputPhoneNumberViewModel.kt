@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.alexsergeev.domain.usecases.interfaces.GetUserProfileWithoutApiUseCase
 import ru.alexsergeev.domain.usecases.interfaces.SendCodeUseCase
+import ru.alexsergeev.domain.usecases.interfaces.SetBasicNumberUseCase
 import ru.alexsergeev.domain.usecases.interfaces.SetUserProfileUseCase
 import ru.alexsergeev.presentation.models.FullName
 import ru.alexsergeev.presentation.models.Phone
@@ -25,6 +26,7 @@ internal class InputPhoneNumberViewModel(
     private val getUserProfileWithoutApiUseCase: GetUserProfileWithoutApiUseCase,
     private val domainUserToUiUserMapper: DomainUserToUiUserMapper,
     private val setUserProfileUseCase: SetUserProfileUseCase,
+    private val setBasicNumberUseCase: SetBasicNumberUseCase,
     private val sendCodeUseCase: SendCodeUseCase,
     private val uiUserToDomainUserMapper: UiUserToDomainUserMapper
 ) : ViewModel() {
@@ -65,6 +67,16 @@ internal class InputPhoneNumberViewModel(
             viewModelScope.launch {
                 setUserProfileUseCase.invoke(uiUserToDomainUserMapper.map(userUiModel))
                 userDataMutable.update { userUiModel }
+            }
+        } catch (e: Exception) {
+            throw e
+        }
+    }
+
+    fun setBasicNumber(phone: String) {
+        try {
+            viewModelScope.launch {
+                setBasicNumberUseCase.invoke(phone)
             }
         } catch (e: Exception) {
             throw e

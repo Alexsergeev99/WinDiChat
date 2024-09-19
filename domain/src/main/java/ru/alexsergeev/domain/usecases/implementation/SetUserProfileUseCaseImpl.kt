@@ -2,8 +2,8 @@ package ru.alexsergeev.domain.usecases.implementation
 
 import ru.alexsergeev.domain.models.UserDomainModel
 import ru.alexsergeev.domain.repository.UserProfileRepository
+import ru.alexsergeev.domain.usecases.interfaces.SetBasicNumberUseCase
 import ru.alexsergeev.domain.usecases.interfaces.SetUserProfileUseCase
-import ru.alexsergeev.domain.usecases.interfaces.UpdateUserProfileUseCase
 
 internal class SetUserProfileUseCaseImpl(private val repository: UserProfileRepository) :
     SetUserProfileUseCase {
@@ -11,8 +11,9 @@ internal class SetUserProfileUseCaseImpl(private val repository: UserProfileRepo
         repository.setUserData(userDomainModel)
 }
 
-internal class UpdateUserProfileUseCaseImpl(private val repository: UserProfileRepository) :
-    UpdateUserProfileUseCase {
-    override suspend fun invoke(userDomainModel: UserDomainModel) =
-        repository.updateUser(userDomainModel)
+internal class SetBasicNumberUseCaseImpl(private val repository: UserProfileRepository) :
+    SetBasicNumberUseCase {
+    override suspend fun invoke(phone: String) =
+        repository.setBasicNumber(phone)
 }
+

@@ -3,25 +3,24 @@ package ru.alexsergeev.presentation.ui.screens
 import android.content.pm.ActivityInfo
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import ru.alexsergeev.presentation.navigation.WinDiTopBar
-import ru.alexsergeev.presentation.theme.WinDiTheme
 import ru.alexsergeev.presentation.ui.components.FullNameCorrectField
 import ru.alexsergeev.presentation.ui.components.RemoveProfileButton
 import ru.alexsergeev.presentation.ui.components.Search
@@ -37,7 +36,9 @@ internal fun EditProfileScreen(
 ) {
     LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
-    val user by userProfileViewModel.getUserData().collectAsStateWithLifecycle()
+    val basicNumber = userProfileViewModel.getBasicNumber()
+    val user by userProfileViewModel.getUserData(basicNumber).collectAsStateWithLifecycle()
+    val scope = rememberCoroutineScope()
 
     Column(modifier = Modifier.fillMaxSize()) {
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
@@ -51,7 +52,19 @@ internal fun EditProfileScreen(
                     navController = navController,
                     text = "",
                     needToBack = true,
-                    needToSave = true
+                    needToSave = true,
+                    goToBackScreen = {
+                        scope.launch {
+                            async {
+                                userProfileViewModel.updateUserData(
+                                    userProfileViewModel.getUserData(
+                                        basicNumber
+                                    ).value
+                                )
+                            }.await()
+                        }
+                        navController.navigate("profile_screen")
+                    }
                 )
             }
         }

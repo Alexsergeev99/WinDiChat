@@ -39,7 +39,8 @@ internal fun UserProfileScreen(
 ) {
     LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
-    val user by userProfileViewModel.getUserData().collectAsStateWithLifecycle()
+    val basicNumber = userProfileViewModel.getBasicNumber()
+    val user by userProfileViewModel.getUserData(basicNumber).collectAsStateWithLifecycle()
 
     Box(
         modifier = Modifier
@@ -51,7 +52,10 @@ internal fun UserProfileScreen(
             navController = navController,
             text = "Профиль",
             needToBack = true,
-            needToEdit = true
+            needToEdit = true,
+            goToBackScreen = {
+                navController.navigate("main_screen")
+            }
         )
         Column(
             modifier = Modifier

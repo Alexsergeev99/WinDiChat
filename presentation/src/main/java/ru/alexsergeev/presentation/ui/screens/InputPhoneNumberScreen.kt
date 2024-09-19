@@ -1,6 +1,7 @@
 package ru.alexsergeev.presentation.ui.screens
 
 import android.content.pm.ActivityInfo
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -110,6 +111,7 @@ internal fun InputPhoneNumberScreen(
                         avatar = user.value.avatar
                     )
                 )
+                inputPhoneNumberViewModel.setBasicNumber(it)
                 checkPhoneNumberLength.value =
                     inputPhoneNumberViewModel.checkPhoneLength(user.value.phone.basicNumber.length)
             }

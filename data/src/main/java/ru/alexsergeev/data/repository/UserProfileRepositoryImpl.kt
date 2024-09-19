@@ -45,8 +45,10 @@ internal class UserProfileRepositoryImpl(
             "https://www.1zoom.me/big2/62/199578-yana.jpg",
         )
     )
+    private val basicNumberMutable =
+        MutableStateFlow<String>(userDataMutable.value.phone.basicNumber)
 
-    override fun getUserData(): Flow<UserDomainModel> = flow {
+    override fun getUserData(phone: String): Flow<UserDomainModel> = flow {
         try {
             val response = apiService.getUser(sharedPreferencesManager.getToken() ?: "")
             if (response.code() == 401) {
@@ -55,17 +57,17 @@ internal class UserProfileRepositoryImpl(
             if (response.isSuccessful) {
                 response.body()?.let { apiResponse ->
                     emit(dataUserToDomainUserMapper.map(apiResponse))
-                } ?: emit(entityUserToDomainUserMapper.map(userDao.getUser().first()))
+                } ?: emit(entityUserToDomainUserMapper.map(userDao.getUserByPhone(phone).first()))
             } else {
                 Log.e("API Error", "Code: ${response.code()}, Message: ${response.message()}")
-                emit(entityUserToDomainUserMapper.map(userDao.getUser().first()))
+                emit(entityUserToDomainUserMapper.map(userDao.getUserByPhone(phone).first()))
             }
         } catch (e: IOException) {
             Log.e("Network Error", "IOException: ${e.message}")
-            emit(entityUserToDomainUserMapper.map(userDao.getUser().first()))
+            emit(entityUserToDomainUserMapper.map(userDao.getUserByPhone(phone).first()))
         } catch (e: Exception) {
             Log.e("Unknown Error", "Exception: ${e.message}")
-            emit(entityUserToDomainUserMapper.map(userDao.getUser().first()))
+            emit(entityUserToDomainUserMapper.map(userDao.getUserByPhone(phone).first()))
         }
     }
 
@@ -74,9 +76,16 @@ internal class UserProfileRepositoryImpl(
         emit(user)
     }
 
+    override fun getBasicNumber(): Flow<String> = flow {
+        emit(basicNumberMutable.value)
+    }
 
     override suspend fun setUserData(user: UserDomainModel) {
         userDataMutable.update { user }
+    }
+
+    override suspend fun setBasicNumber(phone: String) {
+        basicNumberMutable.update { phone }
     }
 
     override fun verifyCode(phone: String, code: String): Flow<Boolean> = flow {
@@ -146,7 +155,7 @@ internal class UserProfileRepositoryImpl(
                 sharedPreferencesManager.saveToken(it.access_token)
                 sharedPreferencesManager.saveTokenRefresh(it.refresh_token)
             }
-            userDao.insertUser(domainUserToEntityUserMapper.map(userDataMutable.value))
+            updateUserInDatabase(userDataMutable.value)
         } catch (e: IOException) {
             Log.e("Network Error", "IOException: ${e.message}")
         } catch (e: Exception) {
@@ -158,7 +167,7 @@ internal class UserProfileRepositoryImpl(
         try {
             val response = apiService.updateUser(
                 sharedPreferencesManager.getToken().toString(),
-                domainUserToUpdateUserRequestMapper.map(getUserData().first())
+                domainUserToUpdateUserRequestMapper.map(getUserData(user.phone.basicNumber).first())
             )
             if (response.code() == 401) {
                 refreshToken()
@@ -172,4 +181,11 @@ internal class UserProfileRepositoryImpl(
             Log.e("Unknown Error", "Exception: ${e.message}")
         }
     }
+
+    override suspend fun updateUserInDatabase(user: UserDomainModel) {
+        userDao.clear()
+        userDao.insertUser(domainUserToEntityUserMapper.map(userDataMutable.value))
+    }
+
+
 }

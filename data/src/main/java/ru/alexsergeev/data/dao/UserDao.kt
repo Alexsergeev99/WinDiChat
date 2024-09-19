@@ -10,10 +10,13 @@ import ru.alexsergeev.data.entity.UserEntity
 @Dao
 interface UserDao {
 
-    @Query("SELECT * FROM UserEntity")
-    fun getUser(): Flow<UserEntity>
+    @Query("SELECT * FROM UserEntity WHERE basicNumber = :basicNumber")
+    fun getUserByPhone(basicNumber: String): Flow<UserEntity>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertUser(user: UserEntity)
+
+    @Query("DELETE FROM USERENTITY")
+    suspend fun clear()
 
 }
