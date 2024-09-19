@@ -16,21 +16,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import org.koin.androidx.compose.koinViewModel
 import ru.alexsergeev.presentation.navigation.WinDiTopBar
 import ru.alexsergeev.presentation.ui.components.MessageInput
 import ru.alexsergeev.presentation.ui.components.MessageList
 import ru.alexsergeev.presentation.utils.LockScreenOrientation
 import ru.alexsergeev.presentation.utils.rememberImeState
+import ru.alexsergeev.presentation.viewmodel.MessagesListViewModel
 
 @Composable
 internal fun MessageListScreen(
     navController: NavController,
-    userId: String
+    userId: String,
+    messagesListViewModel: MessagesListViewModel = koinViewModel()
 ) {
     LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
     val imeState = rememberImeState()
     val scrollState = rememberScrollState()
+    val user = messagesListViewModel.getUserById(userId.toInt()).value
 
     LaunchedEffect(key1 = imeState.value) {
         if (imeState.value) {
@@ -45,7 +49,7 @@ internal fun MessageListScreen(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        WinDiTopBar(navController = navController, text = "", needToBack = true, goToProfile = true)
+        WinDiTopBar(navController = navController, text = "${user.name.firstName} ${user.name.secondName}", needToBack = true, goToProfile = true)
         MessageList(
             navController = navController,
             userId

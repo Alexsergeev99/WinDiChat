@@ -68,10 +68,6 @@ internal class UserProfileViewModel(
     )
     private val userDataWithoutApi: StateFlow<UserUiModel> = userDataWithoutApiMutable
 
-    init {
-        Log.d("test", getBasicNumber().toString())
-    }
-
     fun getUserData(phone: String): StateFlow<UserUiModel> {
         try {
             viewModelScope.launch {
@@ -117,20 +113,6 @@ internal class UserProfileViewModel(
             viewModelScope.launch {
                 updateUserProfileInDatabaseUseCase.invoke(uiUserToDomainUserMapper.map(userUiModel))
                 updateUserProfileUseCase.invoke(uiUserToDomainUserMapper.map(userUiModel))
-            }
-        } catch (e: Exception) {
-            throw e
-        }
-    }
-
-    fun registerUser(userUiModel: UserUiModel) {
-        try {
-            viewModelScope.launch {
-                registerUserUseCase.invoke(
-                    phone = "${userUiModel.phone.countryCode}${userUiModel.phone.basicNumber}",
-                    name = "${userUiModel.name.firstName} ${userUiModel.name.secondName}",
-                    username = userUiModel.username
-                )
             }
         } catch (e: Exception) {
             throw e
