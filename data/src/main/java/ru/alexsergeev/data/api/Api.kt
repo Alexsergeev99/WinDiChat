@@ -9,7 +9,9 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import ru.alexsergeev.data.BuildConfig
+import ru.alexsergeev.data.models.Avatars
 import ru.alexsergeev.data.models.CodeRequest
 import ru.alexsergeev.data.models.GetUserResponse
 import ru.alexsergeev.data.models.PhoneRequest
@@ -17,6 +19,7 @@ import ru.alexsergeev.data.models.RefreshCodeRequest
 import ru.alexsergeev.data.models.RegisterRequest
 import ru.alexsergeev.data.models.RegisterResponse
 import ru.alexsergeev.data.models.SendCodeResponse
+import ru.alexsergeev.data.models.UpdateUserRequest
 import ru.alexsergeev.data.models.VerifyCodeResponse
 import java.util.concurrent.TimeUnit
 
@@ -35,10 +38,17 @@ internal interface ApiService {
     @POST("refresh-token/")
     suspend fun refreshToken(
         @Header("Authorization") access_token: String,
-        @Body refreshTokenRequest: RefreshCodeRequest): Response<RegisterResponse>
+        @Body refreshTokenRequest: RefreshCodeRequest
+    ): Response<RegisterResponse>
 
     @GET("me/")
     suspend fun getUser(@Header("Authorization") access_token: String): Response<GetUserResponse>
+
+    @PUT("me/")
+    suspend fun updateUser(
+        @Header("Authorization") access_token: String,
+        @Body updateUserRequest: UpdateUserRequest
+    ): Response<Avatars>
 }
 
 internal fun provideOkHttpClient() = if (BuildConfig.DEBUG) {

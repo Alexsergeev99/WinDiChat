@@ -11,5 +11,6 @@ interface UserProfileRepository {
     fun sendCode(phone: String): Flow<Boolean>
     suspend fun refreshToken()
     suspend fun registerUser(phone: String, name: String, username: String)
+    suspend fun updateUser(user: UserDomainModel)
 
 }

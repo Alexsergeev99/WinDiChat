@@ -5,6 +5,7 @@ internal data class UserUiModel(
     val name: FullName,
     val phone: Phone,
     val avatar: String,
+    val birthday: String = "",
     val city: String = "",
     val info: String = "",
     val username: String = ""

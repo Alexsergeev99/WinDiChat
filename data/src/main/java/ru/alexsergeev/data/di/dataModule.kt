@@ -7,7 +7,6 @@ import org.koin.dsl.module
 import ru.alexsergeev.data.api.provideApiService
 import ru.alexsergeev.data.api.provideOkHttpClient
 import ru.alexsergeev.data.api.provideRetrofit
-import ru.alexsergeev.data.db.AppDb
 import ru.alexsergeev.data.db.AppDb.Companion.buildDatabase
 import ru.alexsergeev.data.db.AppDb.Companion.provideDao
 import ru.alexsergeev.data.prefs.SharedPreferencesManager
@@ -16,6 +15,7 @@ import ru.alexsergeev.data.repository.MessageRepositoryImpl
 import ru.alexsergeev.data.repository.UserProfileRepositoryImpl
 import ru.alexsergeev.data.utils.DataUserToDomainUserMapper
 import ru.alexsergeev.data.utils.DomainUserToEntityUserMapper
+import ru.alexsergeev.data.utils.DomainUserToUpdateUserRequestMapper
 import ru.alexsergeev.data.utils.EntityUserToDomainUserMapper
 import ru.alexsergeev.domain.repository.ChatsRepository
 import ru.alexsergeev.domain.repository.MessageRepository
@@ -30,6 +30,7 @@ val dataModule = module {
     singleOf(::DataUserToDomainUserMapper)
     singleOf(::EntityUserToDomainUserMapper)
     singleOf(::DomainUserToEntityUserMapper)
+    singleOf(::DomainUserToUpdateUserRequestMapper)
 
     single { provideOkHttpClient() }
     single { provideRetrofit(get()) }

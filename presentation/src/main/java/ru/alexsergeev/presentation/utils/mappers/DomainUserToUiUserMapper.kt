@@ -12,9 +12,12 @@ internal class DomainUserToUiUserMapper : Mapper<UserDomainModel, UserUiModel> {
     override fun map(input: UserDomainModel): UserUiModel = with(input) {
         UserUiModel(
             id,
-            FullName(firstName = input.name.firstName, secondName = input.name.secondName),
-            Phone(input.phone.countryCode, input.phone.basicNumber),
-            avatar, city, info, username
+            name = FullName(firstName = input.name.firstName, secondName = input.name.secondName),
+            phone = Phone(input.phone.countryCode, input.phone.basicNumber),
+            avatar = avatar,
+            city = city,
+            info = info,
+            username = username
         )
     }
 }

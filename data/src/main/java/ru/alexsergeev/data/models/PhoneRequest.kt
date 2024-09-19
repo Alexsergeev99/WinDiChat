@@ -18,3 +18,19 @@ data class RegisterRequest(
 data class RefreshCodeRequest(
     val refresh_token: String
 )
+
+data class UpdateUserRequest(
+    val name: String,
+    val username: String,
+    val birthday: String,
+    val city: String,
+    val vk: String,
+    val instagram: String,
+    val status: String,
+    val avatar: AvatarRequest,
+)
+
+data class AvatarRequest(
+    val filename: String,
+    val base_64: String,
+)

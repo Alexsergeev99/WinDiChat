@@ -16,6 +16,7 @@ import ru.alexsergeev.data.models.RegisterRequest
 import ru.alexsergeev.data.prefs.SharedPreferencesManager
 import ru.alexsergeev.data.utils.DataUserToDomainUserMapper
 import ru.alexsergeev.data.utils.DomainUserToEntityUserMapper
+import ru.alexsergeev.data.utils.DomainUserToUpdateUserRequestMapper
 import ru.alexsergeev.data.utils.EntityUserToDomainUserMapper
 import ru.alexsergeev.domain.models.FullName
 import ru.alexsergeev.domain.models.Phone
@@ -28,6 +29,7 @@ internal class UserProfileRepositoryImpl(
     private val userDao: UserDao,
     private val dataUserToDomainUserMapper: DataUserToDomainUserMapper,
     private val domainUserToEntityUserMapper: DomainUserToEntityUserMapper,
+    private val domainUserToUpdateUserRequestMapper: DomainUserToUpdateUserRequestMapper,
     private val entityUserToDomainUserMapper: EntityUserToDomainUserMapper,
     private val context: Context,
     private val sharedPreferencesManager: SharedPreferencesManager = SharedPreferencesManager(
@@ -125,8 +127,10 @@ internal class UserProfileRepositoryImpl(
     }
 
     override suspend fun refreshToken() {
-        apiService.refreshToken(sharedPreferencesManager.getToken().toString(),
-        RefreshCodeRequest(sharedPreferencesManager.getTokenRefresh().toString()))
+        apiService.refreshToken(
+            sharedPreferencesManager.getToken().toString(),
+            RefreshCodeRequest(sharedPreferencesManager.getTokenRefresh().toString())
+        )
     }
 
     override suspend fun registerUser(phone: String, name: String, username: String) {
@@ -143,6 +147,25 @@ internal class UserProfileRepositoryImpl(
                 sharedPreferencesManager.saveTokenRefresh(it.refresh_token)
             }
             userDao.insertUser(domainUserToEntityUserMapper.map(userDataMutable.value))
+        } catch (e: IOException) {
+            Log.e("Network Error", "IOException: ${e.message}")
+        } catch (e: Exception) {
+            Log.e("Unknown Error", "Exception: ${e.message}")
+        }
+    }
+
+    override suspend fun updateUser(user: UserDomainModel) {
+        try {
+            val response = apiService.updateUser(
+                sharedPreferencesManager.getToken().toString(),
+                domainUserToUpdateUserRequestMapper.map(getUserData().first())
+            )
+            if (response.code() == 401) {
+                refreshToken()
+            }
+            if (!response.isSuccessful) {
+                Log.e("API Error", "Code: ${response.code()}, Message: ${response.message()}")
+            }
         } catch (e: IOException) {
             Log.e("Network Error", "IOException: ${e.message}")
         } catch (e: Exception) {

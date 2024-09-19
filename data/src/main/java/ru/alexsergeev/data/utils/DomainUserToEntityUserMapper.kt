@@ -3,6 +3,8 @@ package ru.alexsergeev.data.utils
 import ru.alexsergeev.data.entity.FullName
 import ru.alexsergeev.data.entity.Phone
 import ru.alexsergeev.data.entity.UserEntity
+import ru.alexsergeev.data.models.AvatarRequest
+import ru.alexsergeev.data.models.UpdateUserRequest
 import ru.alexsergeev.domain.models.UserDomainModel
 
 internal class DomainUserToEntityUserMapper : Mapper<UserDomainModel, UserEntity> {

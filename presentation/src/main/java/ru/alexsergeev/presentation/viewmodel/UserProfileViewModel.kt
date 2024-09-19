@@ -12,6 +12,7 @@ import ru.alexsergeev.domain.usecases.interfaces.GetUserProfileUseCase
 import ru.alexsergeev.domain.usecases.interfaces.GetUserProfileWithoutApiUseCase
 import ru.alexsergeev.domain.usecases.interfaces.RegisterUserUseCase
 import ru.alexsergeev.domain.usecases.interfaces.SetUserProfileUseCase
+import ru.alexsergeev.domain.usecases.interfaces.UpdateUserProfileUseCase
 import ru.alexsergeev.presentation.models.FullName
 import ru.alexsergeev.presentation.models.Phone
 import ru.alexsergeev.presentation.models.UserUiModel
@@ -23,6 +24,7 @@ internal class UserProfileViewModel(
     private val getUserProfileWithoutApiUseCase: GetUserProfileWithoutApiUseCase,
     private val domainUserToUiUserMapper: DomainUserToUiUserMapper,
     private val setUserProfileUseCase: SetUserProfileUseCase,
+    private val updateUserProfileUseCase: UpdateUserProfileUseCase,
     private val registerUserUseCase: RegisterUserUseCase,
     private val uiUserToDomainUserMapper: UiUserToDomainUserMapper
 ) : ViewModel() {
@@ -71,23 +73,12 @@ internal class UserProfileViewModel(
         }
     }
 
-    fun getUserDataWithoutApi(): StateFlow<UserUiModel> {
-        try {
-            viewModelScope.launch {
-                val user = getUserProfileWithoutApiUseCase.invoke().last()
-                userDataWithoutApiMutable.update { domainUserToUiUserMapper.map(user) }
-            }
-            return userDataWithoutApi
-        } catch (e: Exception) {
-            throw e
-        }
-    }
-
     fun setUserData(userUiModel: UserUiModel) {
         try {
             viewModelScope.launch {
                 setUserProfileUseCase.invoke(uiUserToDomainUserMapper.map(userUiModel))
-                userDataWithoutApiMutable.update { userUiModel }
+                updateUserProfileUseCase.invoke(uiUserToDomainUserMapper.map(userUiModel))
+                userDataMutable.update { userUiModel }
             }
         } catch (e: Exception) {
             throw e
